@@ -6,16 +6,19 @@ import {
 	RouterProvider,
 	createBrowserRouter,
 } from "react-router-dom";
+import MainPage from "./App/Pages/MainPage";
 
 function App() {
 	const baseRoutes: RouteObject[] = [
 		{
 			path: "/",
-			element: <Navigate to={"/dashboard"} />,
-		},
-		{
-			path: "/dashboard",
-			element: <Dashboard />,
+			element: <MainPage />,
+			children: [
+				{
+					path: "/dashboard",
+					element: <Dashboard />,
+				},
+			],
 		},
 	];
 
