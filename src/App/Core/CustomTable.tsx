@@ -10,9 +10,19 @@ import {
    getKeyValue,
    Selection,
    Pagination,
+   Input,
+   Dropdown,
+   DropdownTrigger,
+   Button,
+   DropdownMenu,
+   DropdownItem,
 } from "@nextui-org/react";
 import TableEmptyContent from "../Components/Atoms/TableEmptyContent";
 import { users, statusOptions } from "../../Assets/data";
+import SearchIcon from "../../Assets/Icons/SearchIcon";
+import ChevronDownIcon from "../../Assets/Icons/ChevronDownIcon";
+import { capitalize } from "../Library/utils/helper";
+import PlusIcon from "../../Assets/Icons/PlusIcon";
 
 export type Column = {
    key: string | number;
@@ -100,21 +110,128 @@ const CustomTable: FC<TableProviderProps> = ({ columns, data, title, enableSelec
       }
    }, []);
 
+   const onRowsPerPageChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+      setRowsPerPage(Number(e.target.value));
+      setPage(1);
+   }, []);
+
+   const onSearchChange = useCallback((value?: string) => {
+      if (value) {
+         setFilterValue(value);
+         setPage(1);
+      } else {
+         setFilterValue("");
+      }
+   }, []);
+
+
+   const topContent = useMemo(() => {
+      return (
+         <div className="flex flex-col gap-4">
+            <div className="flex justify-between gap-3 items-end">
+               {title}
+               <div className="flex gap-3">
+                  <Dropdown>
+                     <DropdownTrigger className="hidden sm:flex">
+                        <Button
+                           endContent={<ChevronDownIcon className="text-small" />}
+                           size="sm"
+                           variant="flat"
+                        >
+                           Status
+                        </Button>
+                     </DropdownTrigger>
+                     <DropdownMenu
+                        disallowEmptySelection
+                        aria-label="Table Columns"
+                        closeOnSelect={false}
+                        selectedKeys={statusFilter}
+                        selectionMode="multiple"
+                        onSelectionChange={setStatusFilter}
+                     >
+                        {statusOptions.map((status) => (
+                           <DropdownItem key={status.uid} className="capitalize dark:text-light">
+                              {capitalize(status.name)}
+                           </DropdownItem>
+                        ))}
+                     </DropdownMenu>
+                  </Dropdown>
+                  <Dropdown>
+                     <DropdownTrigger className="hidden sm:flex">
+                        <Button
+                           endContent={<ChevronDownIcon className="text-small" />}
+                           size="sm"
+                           variant="flat"
+                        >
+                           Columns
+                        </Button>
+                     </DropdownTrigger>
+                     <DropdownMenu
+                        disallowEmptySelection
+                        aria-label="Table Columns"
+                        closeOnSelect={false}
+                        selectedKeys={visibleColumns}
+                        selectionMode="multiple"
+                        onSelectionChange={setVisibleColumns}
+                     >
+                        {columns.map((column) => (
+                           <DropdownItem key={column.key} className="capitalize dark:text-light">
+                              {capitalize(column.name)}
+                           </DropdownItem>
+                        ))}
+                     </DropdownMenu>
+                  </Dropdown>
+                  <Button
+                  color="secondary"
+                     className="dark:text-light"
+                     endContent={<PlusIcon />}
+                     size="sm"
+                  >
+                     Add New
+                  </Button>
+               </div>
+            </div>
+            <div className="flex justify-between items-center">
+               <span className="text-small">Total {users.length} users</span>
+               <label className="flex items-center text-small">
+                  Rows per page:
+                  <select
+                     className="bg-transparent outline-none text-small"
+                     onChange={onRowsPerPageChange}
+                  >
+                     <option value="5">5</option>
+                     <option value="10">10</option>
+                     <option value="15">15</option>
+                  </select>
+               </label>
+            </div>
+         </div>
+      );
+   }, [
+      filterValue,
+      statusFilter,
+      visibleColumns,
+      onSearchChange,
+      onRowsPerPageChange,
+      users.length,
+      hasSearchFilter,
+   ]);
+
    const classNames = useMemo(
       () => ({
-         wrapper: ["max-h-[382px]", "bg-white shadow-none dark:bg-background dark:text-light"],
-         th: ["text-default-500", "bg-background"],
-         td: [
-            // changing the rows border radius
-            // first
-            "group-data-[first=true]:first:before:rounded-none",
-            "group-data-[first=true]:last:before:rounded-none",
-            // middle
-            "group-data-[middle=true]:before:rounded-none",
-            // last
-            "group-data-[last=true]:first:before:rounded-none",
-            "group-data-[last=true]:last:before:rounded-none",
-         ],
+         wrapper: [ "bg-white shadow-none dark:bg-background dark:text-light"],
+         th: ["text-default-500"],
+         // td: [
+         //    // changing the rows border radius
+         //    // first
+         //    "group-data-[first=true]:first:before:rounded-none",
+         //    "group-data-[first=true]:last:before:rounded-none",
+         //    // middle
+         //    "group-data-[middle=true]:before:rounded-none",
+         //    // last
+         //    "group-data-[last=true]:first:before:rounded-none",
+         //    "group-data-[last=true]:last:before:rounded-none",
+         // ],
          tr: ["cursor-pointer "],
       }),
       []
@@ -144,25 +261,19 @@ const CustomTable: FC<TableProviderProps> = ({ columns, data, title, enableSelec
       );
    }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
-   const onSearchChange = useCallback((value?: string) => {
-      if (value) {
-         setFilterValue(value);
-         setPage(1);
-      } else {
-         setFilterValue("");
-      }
-   }, []);
+  
 
    return (
       <div className="">
-         <p className="text-xl text-gray-500 pl-4">{title}</p>
          <Table
+            isStriped
             aria-label="Example table with dynamic content"
             onSortChange={setSortDescriptor}
             sortDescriptor={sortDescriptor}
             onSelectionChange={setSelectedKeys}
             selectionMode={enableSelect ? "multiple" : "none"}
             classNames={classNames}
+            topContent={topContent}
             bottomContent={bottomContent}
             color="primary"
             checkboxesProps={{

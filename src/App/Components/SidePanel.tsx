@@ -21,7 +21,7 @@ const SidePanel = () => {
    }
 
    return (
-      <div className="flex absolute left-0 z-10 bg-danger max-w-[300px] shadow">
+      <div className="flex absolute left-0 z-50 bg-danger max-w-[300px] shadow">
          <div
             className="flex h-screen w-16 flex-col justify-between bg-white dark:bg-background"
             onMouseEnter={handleMouseEnter}

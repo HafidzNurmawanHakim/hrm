@@ -3,6 +3,7 @@ import SidePanel from "../Components/SidePanel";
 import { Outlet } from "react-router-dom";
 import { useAppController } from "../Core/AppController";
 import { Navbar } from "@nextui-org/react";
+import CustomNavbar from "../Components/Navbar";
 
 const MainPage = () => {
 	const { setHoldOn, holdOn } = useAppController();
@@ -15,6 +16,9 @@ const MainPage = () => {
 					holdOn ? "ml-[300px]" : "ml-16"
 				}`}
 			>
+				<div className="">
+					<CustomNavbar />
+				</div>
 				<Outlet />
 			</div>
 		</div>

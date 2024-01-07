@@ -19,7 +19,24 @@ const ApexCharts = (props: ApexChartsProps) => {
    const options: ApexOptions = {
       xaxis: {
          categories: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+         axisBorder: {
+            show: false,
+            color: 'transparent'
+         },
+         axisTicks: {
+            show: false
+         }
       },
+      fill: {
+         type: "gradient",
+         gradient: {
+           shade: "light",
+           type: "vertical",
+           opacityFrom: 1,
+           opacityTo: 0
+         },
+         
+       },
       yaxis: {
          labels: {
             show: false,
