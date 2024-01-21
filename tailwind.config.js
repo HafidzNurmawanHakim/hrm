@@ -66,7 +66,7 @@ module.exports = {
             light: {
                layout: {},
                colors: {
-                  light: "#f5f8fa",
+                  base: "#f5f8fa",
                },
             },
             // dark: {

@@ -17,3 +17,11 @@ export function getCurrentDateIndonesianFormat(): string {
 
    return formattedDate;
 }
+
+export function toCamelCase(input: string): string {
+   if (input) {
+      return input.replace(/\s\w|^\w/g, (match) => match.trim().toUpperCase());
+   } else {
+      return "";
+   }
+}

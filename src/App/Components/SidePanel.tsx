@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MinusIcon from "../../Assets/Icons/Minus";
-import RigthChevron from "../../Assets/Icons/RightChevron";
+import RigthChevron from "../../Assets/Icons/DoubleRightChevron";
 import { Button } from "@nextui-org/react";
 import { useAppController } from "../Core/AppController";
 import MenuItem from "./Atoms/MenuItem";

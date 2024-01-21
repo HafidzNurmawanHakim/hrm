@@ -1,122 +1,155 @@
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
+   Autocomplete,
+   AutocompleteItem,
+   Button,
+   Table,
+   TableBody,
+   TableCell,
+   TableColumn,
+   TableHeader,
+   TableRow,
+   Tooltip,
 } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, FC, ReactElement, SetStateAction, useState } from "react";
+import PlusIcon from "../../Assets/Icons/PlusIcon";
+import { CellCalendar } from "./Atoms/CellCalendar";
+import ChevronLeftIcon from "../../Assets/Icons/ChevronLeftIcon";
+import ChevronRightIcon from "../../Assets/Icons/ChevronRightIcon";
+import { toCamelCase } from "../Library/utils/helper";
+import { Category, Calendar1, Calendar2, ArrowRight3, ArrowLeft3 } from "iconsax-react";
+import {
+   DayObj,
+   ViewType,
+   generateMonth,
+   initDay,
+   initMonths,
+} from "../Library/_types/ScheduleTypes";
+import MonthViewCalendar from "./MonthViewCalendar";
+import DayViewCalendar from "./DayViewCalendar";
+import MonthPagination from "./Atoms/MonthPagination";
 
-const initDay = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
+const ButtonType: Array<{ viewType: ViewType; icon: ReactElement }> = [
+   {
+      viewType: "Year",
+      icon: <Category size={20} />,
+   },
+   {
+      viewType: "Month",
+      icon: <Calendar2 size={20} />,
+   },
+   {
+      viewType: "Day",
+      icon: <Calendar1 size={20} />,
+   },
 ];
-const initMonths = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 
-const Calendar = () => {
-  const [date, setDate] = useState(new Date());
-  const [year, setYear] = useState(date.getFullYear());
-  const [month, setMonth] = useState(date.getMonth());
-  const [currentMonth, setCurrentMonth] = useState<Array<Array<string>>>([]);
+const monthsAsObjects = initMonths.map((month, index) => ({
+   value: month.toLowerCase(),
+   label: month,
+}));
 
-  useEffect(() => {
-    getCalendar();
-  }, []);
+interface CalendarProps {
+   setYear: Dispatch<SetStateAction<number>>;
+   setMonth: Dispatch<SetStateAction<number>>;
+   month: number;
+   year: number;
+   currentMonth: Array<Array<DayObj>>;
+   load: boolean;
+   currentYear: Array<generateMonth>;
+}
 
-  function getCalendar() {
-    let dayOne = new Date(year, month, 1).getDay();
-    let lastDate = new Date(year, month + 1, 0).getDate();
-    let dayEnd = new Date(year, month, lastDate).getDay();
-    let monthLastDate = new Date(year, month, 0).getDate();
-    let currentMonth = [];
+const Calendar: FC<CalendarProps> = ({
+   setYear,
+   load,
+   setMonth,
+   currentYear,
+   year,
+   month,
+   currentMonth,
+}) => {
+   const [viewType, setViewType] = useState<ViewType>("Month");
 
-    for (let i = dayOne; i > 0; i--) {
-      currentMonth.push(`${monthLastDate - i + 1}`);
-    }
+   const prev = (type: string) => {
+      switch (type) {
+         case "year":
+            setYear((prev) => prev - 1);
 
-    for (let i = dayOne; i <= monthLastDate; i++) {
-      currentMonth.push(`${i}`);
-    }
+            break;
+         case "month":
+            setMonth((prev) => prev - 1);
+            break;
 
-    for (let i = dayEnd; i < 6; i++) {
-      currentMonth.push(`${i - dayEnd + 1}`);
-    }
+         default:
+            break;
+      }
+   };
+   const next = (type: string) => {
+      setYear((prev) => prev + 1);
+   };
 
-    const kalenderMingguan = [];
-    for (let i = 0; i < currentMonth.length; i += 7) {
-      kalenderMingguan.push(currentMonth.slice(i, i + 7));
-    }
+   return (
+      <div>
+         <div className=" pt-6 pb-4 px-6 flex justify-between items-center">
+            <div className="text-gray-500 text-2xl max-w-[50%] flex gap-20 items-center">
+               <MonthPagination
+                  pageMonth={monthsAsObjects}
+                  setMonth={(page) => setMonth(page)}
+                  page={month}
+               />
 
-    setCurrentMonth(kalenderMingguan);
-  }
+               <div className="text-gray-500 text-2xl flex items-center gap-6">
+                  <Button
+                     aria-label="next page"
+                     isIconOnly
+                     variant="flat"
+                     color="secondary"
+                     onClick={() => prev("year")}
+                  >
+                     <ArrowLeft3 />
+                  </Button>
+                  <span className="">{year}</span>
+                  <Button
+                     aria-label="next page"
+                     isIconOnly
+                     variant="flat"
+                     color="secondary"
+                     onClick={() => next("year")}
+                  >
+                     <ArrowRight3 />
+                  </Button>
+               </div>
+            </div>
+            <div className="text-gray-500 text-2xl flex gap-4 items-center">
+               {ButtonType.map((item, i) => {
+                  return (
+                     <Tooltip content={item.viewType} key={i}>
+                        <Button
+                           size="sm"
+                           color="secondary"
+                           variant={item.viewType === viewType ? "flat" : "light"}
+                           isIconOnly
+                           onClick={() => setViewType(item.viewType)}
+                        >
+                           {item.icon}
+                        </Button>
+                     </Tooltip>
+                  );
+               })}
 
-  return (
-    <div>
-      <Table
-        classNames={{
-          td: [
-            "h-32 w-32 border-8 border-white bg-danger rounded-xl overflow-hidden",
-          ],
-          tr: ["rounded-xl"],
-        }}
-        aria-label="Example static collection table"
-      >
-        <TableHeader>
-          {initDay.map((item: string, index: number) => {
-            return (
-              <TableColumn className="text-center" key={index}>
-                {item.slice(0, 3)}
-              </TableColumn>
-            );
-          })}
-        </TableHeader>
-        <TableBody>
-          {currentMonth.map((i: Array<string>, indexI) => (
-            <TableRow key={indexI}>
-              {i.map((j: string, indexJ) => (
-                <TableCell className="text-center p-2" key={indexJ}>
-                  {j}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      {/* <div className="grid grid-cols-7 grid-rows-5 gap-4">
-            {
-               initDay.map((item: string, index: number) => {
-                     return (
-                        <div>{item.slice(0, 3)}</div>
-                     )
-               })
-            }
+               <Button size="sm" color="secondary" startContent={<PlusIcon />}>
+                  Create Task
+               </Button>
+            </div>
          </div>
-         <div className="grid grid-cols-7 grid-rows-5 gap-4">
-            {currentMonth.map((item, index) => {
-               return <div key={item}>{item}</div>;
-            })}
-         </div> */}
-    </div>
-  );
+         {viewType === "Month" ? (
+            <MonthViewCalendar load={load} currentMonth={currentMonth} />
+         ) : viewType === "Day" ? (
+            <DayViewCalendar load={load} currentMonth={currentMonth} />
+         ) : (
+            <>year</>
+         )}
+      </div>
+   );
 };
 
 export default Calendar;
