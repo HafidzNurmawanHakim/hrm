@@ -13,6 +13,7 @@ const Schedule = () => {
    const [year, setYear] = useState(date.getFullYear());
    const [month, setMonth] = useState(date.getMonth());
    const [currentMonth, setCurrentMonth] = useState<Array<Array<DayObj>>>([]);
+   const [currentMonthForDay, setCurrentMonthForDay] = useState<Array<DayObj>>([]);
    const [currentYear, setCurrentYear] = useState<Array<generateMonth>>([]);
 
    useEffect(() => {
@@ -29,6 +30,7 @@ const Schedule = () => {
       let dayEnd = new Date(year, month, lastDate).getDay();
       let monthLastDate = new Date(year, month, 0).getDate();
       let currentMonth = [];
+      let currentMonthForDay = [];
 
       for (let i = dayOne; i > 0; i--) {
          const currentDay = new Date(year, month - 1, monthLastDate - i + 1);
@@ -55,6 +57,7 @@ const Schedule = () => {
          };
 
          currentMonth.push(day);
+         currentMonthForDay.push(day);
       }
 
       for (let i = dayEnd; i < 6; i++) {
@@ -97,6 +100,7 @@ const Schedule = () => {
          return kalenderMingguan;
       } else {
          setCurrentMonth(kalenderMingguan);
+         setCurrentMonthForDay(currentMonthForDay);
       }
 
       setLoad(false);
@@ -124,6 +128,7 @@ const Schedule = () => {
       year,
       month,
       currentYear,
+      currentMonthForDay,
    };
 
    return (

@@ -1,4 +1,4 @@
-import { Button, Chip } from "@nextui-org/react";
+import { Button, Card, Chip } from "@nextui-org/react";
 import { Menu } from "iconsax-react";
 import React from "react";
 
@@ -12,7 +12,7 @@ interface CellCalendar {
 export const CellCalendar = (props: CellCalendar) => {
    const { isWeekend, label, isToday, isActive } = props;
    return (
-      <div className="relative bg-white w-full h-full rounded-xl overflow-hidden">
+      <Card shadow="none" className="relative bg-white w-full h-full rounded-xl overflow-hidden">
          {isWeekend && (
             <span className="absolute right-0 top-0 bottom-0 w-2 h-full bg-red-200 rounded-full"></span>
          )}
@@ -21,9 +21,10 @@ export const CellCalendar = (props: CellCalendar) => {
             size="sm"
             color="secondary"
             variant="light"
-            className="absolute right-[6px] top-[6px]"
+            radius="full"
+            className="absolute h-6 right-[6px] top-[6px]"
          >
-            <Menu variant="Bold" size={20} />
+            <Menu variant="Bold" size={16} />
          </Button>
          <Chip
             color="secondary"
@@ -40,6 +41,6 @@ export const CellCalendar = (props: CellCalendar) => {
                </Chip>
             )}
          </div>
-      </div>
+      </Card>
    );
 };

@@ -17,7 +17,7 @@ const MonthViewCalendar: FC<MonthViewProps> = ({ currentMonth, load }) => {
             td: ["h-32 w-32 overflow-hidden rounded-2xl  dark:border-background"],
             tr: ["rounded-xl"],
 
-            base: ["max-w-[70%] ml-4"],
+            base: ["w-full max-w-[1280px] ml-4"],
          }}
          aria-label="Example static collection table"
       >

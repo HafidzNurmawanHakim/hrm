@@ -1,29 +1,8 @@
-import {
-   Autocomplete,
-   AutocompleteItem,
-   Button,
-   Table,
-   TableBody,
-   TableCell,
-   TableColumn,
-   TableHeader,
-   TableRow,
-   Tooltip,
-} from "@nextui-org/react";
+import { Button, Tooltip } from "@nextui-org/react";
 import React, { Dispatch, FC, ReactElement, SetStateAction, useState } from "react";
 import PlusIcon from "../../Assets/Icons/PlusIcon";
-import { CellCalendar } from "./Atoms/CellCalendar";
-import ChevronLeftIcon from "../../Assets/Icons/ChevronLeftIcon";
-import ChevronRightIcon from "../../Assets/Icons/ChevronRightIcon";
-import { toCamelCase } from "../Library/utils/helper";
 import { Category, Calendar1, Calendar2, ArrowRight3, ArrowLeft3 } from "iconsax-react";
-import {
-   DayObj,
-   ViewType,
-   generateMonth,
-   initDay,
-   initMonths,
-} from "../Library/_types/ScheduleTypes";
+import { DayObj, ViewType, generateMonth, initMonths } from "../Library/_types/ScheduleTypes";
 import MonthViewCalendar from "./MonthViewCalendar";
 import DayViewCalendar from "./DayViewCalendar";
 import MonthPagination from "./Atoms/MonthPagination";
@@ -54,6 +33,7 @@ interface CalendarProps {
    month: number;
    year: number;
    currentMonth: Array<Array<DayObj>>;
+   currentMonthForDay: Array<DayObj>;
    load: boolean;
    currentYear: Array<generateMonth>;
 }
@@ -66,6 +46,7 @@ const Calendar: FC<CalendarProps> = ({
    year,
    month,
    currentMonth,
+   currentMonthForDay,
 }) => {
    const [viewType, setViewType] = useState<ViewType>("Month");
 
@@ -88,38 +69,50 @@ const Calendar: FC<CalendarProps> = ({
    };
 
    return (
-      <div>
-         <div className=" pt-6 pb-4 px-6 flex justify-between items-center">
-            <div className="text-gray-500 text-2xl max-w-[50%] flex gap-20 items-center">
+      <div className="flex justify-between gap-2">
+         <div className="flex-initial w-[80%]">
+            <div className="pt-6 pb-2 px-6 flex justify-between items-center ">
                <MonthPagination
                   pageMonth={monthsAsObjects}
                   setMonth={(page) => setMonth(page)}
                   page={month}
                />
 
-               <div className="text-gray-500 text-2xl flex items-center gap-6">
+               <div className="text-gray-500 text-2xl bg-white flex gap-2 items-center p-2 rounded mr-4">
                   <Button
                      aria-label="next page"
                      isIconOnly
+                     size="sm"
                      variant="flat"
                      color="secondary"
                      onClick={() => prev("year")}
                   >
-                     <ArrowLeft3 />
+                     <ArrowLeft3 size={20} />
                   </Button>
                   <span className="">{year}</span>
                   <Button
                      aria-label="next page"
                      isIconOnly
+                     size="sm"
                      variant="flat"
                      color="secondary"
                      onClick={() => next("year")}
                   >
-                     <ArrowRight3 />
+                     <ArrowRight3 size={20} />
                   </Button>
                </div>
             </div>
-            <div className="text-gray-500 text-2xl flex gap-4 items-center">
+            {viewType === "Month" ? (
+               <MonthViewCalendar load={load} currentMonth={currentMonth} />
+            ) : viewType === "Day" ? (
+               <DayViewCalendar load={load} currentMonthForDay={currentMonthForDay} />
+            ) : (
+               <>year</>
+            )}
+         </div>
+
+         <div className="w-[30%]">
+            <div className="text-gray-500 text-2xl flex gap-4 items-center p-8 justify-end">
                {ButtonType.map((item, i) => {
                   return (
                      <Tooltip content={item.viewType} key={i}>
@@ -141,13 +134,6 @@ const Calendar: FC<CalendarProps> = ({
                </Button>
             </div>
          </div>
-         {viewType === "Month" ? (
-            <MonthViewCalendar load={load} currentMonth={currentMonth} />
-         ) : viewType === "Day" ? (
-            <DayViewCalendar load={load} currentMonth={currentMonth} />
-         ) : (
-            <>year</>
-         )}
       </div>
    );
 };
