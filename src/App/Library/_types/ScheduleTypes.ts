@@ -41,3 +41,9 @@ export type GetCalendarType = {
    month: number;
    isGenerateFullYear?: boolean;
 };
+export interface ItemHour {
+   toRender: JSX.Element[];
+   hour: string;
+}
+
+export type TaskItem = { to: string; from: string; id: string; items: { desc: string } };

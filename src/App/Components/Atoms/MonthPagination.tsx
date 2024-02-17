@@ -107,7 +107,7 @@ const MonthPagination: FC<MonthPaginationProps> = ({ pageMonth, setMonth, page }
             disableCursorAnimation
             showControls={false}
             total={pageMonth.length}
-            initialPage={1}
+            initialPage={page + 1}
             className="gap-2"
             radius="full"
             renderItem={renderItem}
