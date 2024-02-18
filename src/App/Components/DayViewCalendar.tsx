@@ -75,11 +75,49 @@ const task = [
          desc: "05:00 - 06:00",
       },
    },
+   {
+      from: "06:00",
+      to: "07:00",
+      taskId: "3623322",
+      items: {
+         desc: "06:00 - 07:00",
+      },
+   },
+   {
+      from: "04:00",
+      to: "06:00",
+      taskId: "3623212",
+      items: {
+         desc: "04:00 - 06:00",
+      },
+   },
 ];
+
+const getHour = (format: "standart" | "militer") => {
+   let arrHour: Array<{ hour: string; task: Array<any> }> = [];
+
+   if (format === "militer") {
+      for (let i = 1; i <= 24; i++) {
+         const currHour = i < 10 ? `0${i}:00` : `${i}:00`;
+         const isThereTask = task.filter((items, i) => items.from === currHour);
+
+         let obj = {
+            hour: currHour,
+            task: isThereTask,
+         };
+         arrHour.push(obj);
+      }
+   }
+   return arrHour;
+};
 
 const DayViewCalendar: FC<DayViewProps> = ({ currentMonthForDay, load }) => {
    const [currDay, setCurrDay] = useState<number>(new Date().getDay());
    const dispatch: AppDispatch = useDispatch();
+   const [taskHour, setTaskHour] = useState(getHour("militer"));
+   const [fixElement, setFixElement] = useState<ItemHour[]>([]);
+
+   const prevEl = useSelector((state: RootState) => state.ScheduleSlice.prevRowHour);
 
    useEffect(() => {
       const currentHour = new Date().getHours();
@@ -88,103 +126,167 @@ const DayViewCalendar: FC<DayViewProps> = ({ currentMonthForDay, load }) => {
       );
 
       if (!el) return;
-      el?.scrollIntoView({ behavior: "smooth", block: "center" });
-   }, []);
+      generateEl(prevEl);
+      return el?.scrollIntoView({ behavior: "smooth", block: "center" });
+   }, [dispatch]);
 
-   const getHour = (format: "standart" | "militer") => {
-      let arrHour: Array<{ hour: string; task: Array<any> }> = [];
+   function getUnavailableIndex(currentHour: number, prevEl: ItemHour[], currentIndex: number) {
+      if (prevEl.length > 0) {
+         let notAvailableIndex: number[] = [];
+         let prevIndex = currentIndex - 1;
+         for (let i = prevIndex; i >= 0; i--) {
+            if (prevEl[i]) {
+               prevEl[i].toRender.filter((items, j) => {
+                  const startTask = items.props["data-from"]
+                     ? items.props["data-from"].substring(0, 2)
+                     : 0;
+                  const endTask = items.props["data-to"]
+                     ? items.props["data-to"].substring(0, 2)
+                     : 0;
+                  const notAvailableHour = [];
 
-      if (format === "militer") {
-         for (let i = 1; i <= 24; i++) {
-            const currHour = i < 10 ? `0${i}:00` : `${i}:00`;
-            const isThereTask = task.filter((items, i) => items.from === currHour);
-
-            let obj = {
-               hour: currHour,
-               task: isThereTask,
-            };
-            arrHour.push(obj);
+                  // console.log({ items, endTask, startTask });
+                  for (let k = startTask; k <= endTask; k++) {
+                     notAvailableHour.push(k);
+                  }
+                  if (notAvailableHour.includes(currentHour)) {
+                     notAvailableIndex.push(j);
+                  }
+               });
+            }
          }
+         return notAvailableIndex;
       }
-      // console.log(arrHour);
-      return arrHour;
-   };
+      return [];
+   }
 
-   function getEl(
-      task: Array<any>,
-      hour: string,
-      allTaskHour: Array<{ hour: string; task: Array<any> }>,
-      currentIndex: number
-   ) {
-      let toRender: JSX.Element[] = [];
-      let emptyTask: JSX.Element[] = [];
-      const before = allTaskHour[currentIndex - 1]?.task;
-      if (before && before.length > 0) {
-         emptyTask = before.map((itemBefore, i: number) => {
-            return (
-               <div
-                  className={cn("w-20 m-2 h-full invisible z-10", `w-${20 * before.length}`)}
-                  key={"empty_" + i}
-                  id={"empty_" + i}
-               ></div>
+   function generateEl(prevEl: ItemHour[]) {
+      // Gunakan map() untuk menghasilkan array JSX
+      let element: ItemHour[] = [];
+      taskHour.forEach((itemHour, rowIndex) => {
+         if (element.length === 0) {
+            if (itemHour.task.length > 0) {
+               let Jsx = [0, 1, 2, 3].map((item, j) => {
+                  let itemData = itemHour.task[j]; // Mengakses elemen array menggunakan indeks j
+                  if (itemData) {
+                     let h =
+                        (parseInt(itemData.to.substring(0, 2)) -
+                           parseInt(itemData.from.substring(0, 2)) +
+                           1) *
+                        20;
+                     return (
+                        <div
+                           className={cn("w-20 m-2 bg-red-400 z-30", `min-h-${h} h-${h}`)}
+                           key={rowIndex + itemData.from + itemData.to}
+                           id={itemData.taskId}
+                           data-from={itemData.from}
+                           data-to={itemData.to}
+                        >
+                           {itemData.items?.desc}
+                        </div>
+                     );
+                  } else {
+                     return (
+                        <div
+                           className={cn("w-20 m-2 h-full invisible z-10", `w-20`)}
+                           key={"empty_" + rowIndex + j}
+                           id={"empty_" + rowIndex + j}
+                        ></div>
+                     );
+                  }
+               });
+               // dispatch(setPrevRowHour([{ toRender: Jsx, hour: itemHour.hour }]));
+               let temp = [{ toRender: Jsx, hour: itemHour.hour }];
+               temp.forEach((payloadItem: ItemHour) => {
+                  const index = element.findIndex((prevItem) => prevItem.hour === payloadItem.hour);
+                  if (index !== -1) {
+                     // Jika indeks sudah ada, ganti objek tersebut dengan yang baru
+                     element[index] = payloadItem;
+                  } else {
+                     // Jika indeks tidak ditemukan, tambahkan objek baru
+                     let newArr = [payloadItem];
+                     element = [...element, ...newArr];
+                  }
+               });
+            }
+         } else {
+            let Jsx = [0, 1, 2, 3].map((item, j) => {
+               let itemData = itemHour.task[j]; // Mengakses elemen array menggunakan indeks j
+               if (itemData) {
+                  let h =
+                     (parseInt(itemData.to.substring(0, 2)) -
+                        parseInt(itemData.from.substring(0, 2)) +
+                        1) *
+                     20;
+                  return (
+                     <div
+                        className={cn("w-20 m-2 bg-red-400 z-30", `min-h-${h} h-${h}`)}
+                        key={rowIndex + itemData.from + itemData.to}
+                        id={itemData.taskId}
+                        data-from={itemData.from}
+                        data-to={itemData.to}
+                     >
+                        {itemData.items?.desc}
+                     </div>
+                  );
+               } else {
+                  return (
+                     <div
+                        className={cn("w-20 m-2 h-full invisible z-10", `w-20`)}
+                        key={"empty_" + rowIndex + j}
+                        id={"empty_" + rowIndex + j}
+                     ></div>
+                  );
+               }
+            });
+
+            let notAvailableIndex = getUnavailableIndex(
+               parseInt(itemHour.hour.substring(0, 2)),
+               element,
+               rowIndex
             );
-         });
-         toRender = [...toRender, ...emptyTask];
-      }
+            let notAvIndex = Array.from(new Set(notAvailableIndex.sort((a, b) => a - b)));
+            // props.currentIndex === 3 && console.log({ notAvIndex, el: props.el });
 
-      if (task.length > 0) {
-         let jsx = task.map((taskItem: TaskItem, i: number) => {
-            let h =
-               (parseInt(taskItem.to.substring(0, 2)) -
-                  parseInt(taskItem.from.substring(0, 2)) +
-                  1) *
-               20;
-            return (
-               <div
-                  className={cn("w-20 m-2 bg-red-400 z-30", `min-h-${h} h-${h}`)}
-                  key={i + taskItem.from + taskItem.to}
-                  id={JSON.stringify({ from: taskItem.from, to: taskItem.to })}
-               >
-                  {taskItem.items?.desc}
-               </div>
-            );
-         });
-         toRender = [...toRender, ...jsx];
+            let findEl = Jsx.filter((el, index) => el.props.id && !el.props.id.startsWith("empty"));
+            let rendered = [0, 1, 2, 3].map((item: number) => {
+               if (!notAvIndex.includes(item)) {
+                  return (
+                     findEl.shift() ?? (
+                        <div
+                           className={cn("w-20 m-2 h-full invisible z-10", `w-20`)}
+                           key={"empty_" + item}
+                           id={"empty_" + item}
+                        ></div>
+                     )
+                  );
+               } else {
+                  return (
+                     <div
+                        className={cn("w-20 m-2 h-full invisible z-10", `w-20`)}
+                        key={"empty_" + item}
+                        id={"empty_" + item}
+                     ></div>
+                  );
+               }
+            });
+            // dispatch(setPrevRowHour([{ toRender: rendered, hour: itemHour.hour }]));
+            let temp2 = [{ toRender: rendered, hour: itemHour.hour }];
+            temp2.forEach((payloadItem: ItemHour) => {
+               const index = element.findIndex((prevItem) => prevItem.hour === payloadItem.hour);
+               if (index !== -1) {
+                  // Jika indeks sudah ada, ganti objek tersebut dengan yang baru
+                  element[index] = payloadItem;
+               } else {
+                  // Jika indeks tidak ditemukan, tambahkan objek baru
+                  let newArr = [payloadItem];
+                  element = [...element, ...newArr];
+               }
+            });
+         }
+      });
 
-         const notAvIndex = before?.reduce((accumulator, itemBefore, i) => {
-            const startTask = parseInt(itemBefore.from.substring(0, 2));
-            const endTask = parseInt(itemBefore.to.substring(0, 2));
-            const relevanHour = [];
-
-            for (let j = startTask; j <= endTask; j++) {
-               relevanHour.push(j);
-            }
-
-            const currentHourValue = parseInt(hour.substring(0, 2));
-
-            if (endTask === currentHourValue || relevanHour.includes(currentHourValue)) {
-               accumulator.push(i);
-            }
-
-            return accumulator;
-         }, []);
-
-         notAvIndex?.forEach((items: number, i: number) => {
-            if (i !== items) {
-               let findElIndex = toRender.findIndex(
-                  (item, index) => item.props.id && !item.props.id.startsWith("empty")
-               );
-               let findEl = toRender[findElIndex];
-               toRender = [
-                  findEl,
-                  ...toRender.slice(0, findElIndex),
-                  ...toRender.slice(findElIndex + 1),
-               ];
-            }
-         });
-      }
-      dispatch(setPrevRowHour([{ toRender, hour }]));
-      return toRender;
+      setFixElement(element);
    }
 
    return (
@@ -192,8 +294,8 @@ const DayViewCalendar: FC<DayViewProps> = ({ currentMonthForDay, load }) => {
          <div className="w-full max-w-[1280px] bg-white p-4 rounded-xl ml-4 flex justify-center flex-col ">
             <DayPagination summary={currentMonthForDay} pageDay={currDay} />
             <div className="my-2 max-h-[70vh] overflow-y-scroll">
-               {getHour("militer").map((item, i) => {
-                  const chooseEl = getEl(item.task, item.hour, getHour("militer"), i);
+               {taskHour.map((item, i) => {
+                  // const chooseEl = getEl(item.task, item.hour, getHour("militer"), i);
                   return (
                      <div className="relative h-24" key={i}>
                         <Card
@@ -208,12 +310,7 @@ const DayViewCalendar: FC<DayViewProps> = ({ currentMonthForDay, load }) => {
                         <div className="flex gap-4 top-0 left-8 my-2">
                            <div className="w-20"></div>
 
-                           <TaskCard
-                              {...item}
-                              // allTaskHour={getHour("militer")}
-                              currentIndex={i}
-                              el={chooseEl}
-                           />
+                           <TaskCard {...item} currentIndex={i} el={fixElement} />
                         </div>
                      </div>
                   );

@@ -46,4 +46,4 @@ export interface ItemHour {
    hour: string;
 }
 
-export type TaskItem = { to: string; from: string; id: string; items: { desc: string } };
+export type TaskItem = { to: string; from: string; taskId: string; items: { desc: string } };
