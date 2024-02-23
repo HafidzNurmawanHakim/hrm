@@ -42,8 +42,19 @@ export type GetCalendarType = {
    isGenerateFullYear?: boolean;
 };
 export interface ItemHour {
-   toRender: JSX.Element[];
+   toRender: ToRenderItem[];
    hour: string;
+}
+
+export interface ToRenderItem {
+   key:string
+   id: string,
+   props?: {
+      className?: string
+      dataFrom: string,
+      dataTo:string,
+      desc?:string
+   }
 }
 
 export type TaskItem = { to: string; from: string; taskId: string; items: { desc: string } };
