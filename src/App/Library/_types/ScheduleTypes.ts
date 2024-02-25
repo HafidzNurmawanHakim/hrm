@@ -47,14 +47,25 @@ export interface ItemHour {
 }
 
 export interface ToRenderItem {
-   key:string
-   id: string,
+   key: string;
+   id: string;
    props?: {
-      className?: string
-      dataFrom: string,
-      dataTo:string,
-      desc?:string
-   }
+      className?: string;
+      dataFrom: string;
+      dataTo: string;
+      data?: {
+         [key: string]: string;
+      };
+   };
 }
 
-export type TaskItem = { to: string; from: string; taskId: string; items: { desc: string } };
+export type TaskItem = {
+   from: string;
+   to: string;
+   taskId: string;
+   items: {
+      taskKey: string;
+      title: string;
+      desc: string;
+   };
+};

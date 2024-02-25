@@ -2,6 +2,8 @@
 import { nextui } from "@nextui-org/react";
 
 module.exports = {
+   safeList: ["h-60", "h-80"],
+   mode: "jit",
    content: [
       "./src/**/*.{js,jsx,ts,tsx}",
       "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
@@ -14,10 +16,12 @@ module.exports = {
          },
          fontSize: {
             xs: "10px",
+            sm: "12px",
+            md: "14px",
          },
       },
       fontFamily: {
-         sans: ["Poppins", "sans-serif"],
+         sans: ['"Poppins"', "sans-serif"],
          logo: ["Yellowtail", "cursive"],
          heroTitle: ["Preahvihear", "sans-serif"],
          desc: ["Montserrat", "sans-serif"],
