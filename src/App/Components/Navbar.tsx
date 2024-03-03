@@ -1,5 +1,13 @@
 import React from "react";
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, Input} from "@nextui-org/react";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  Link,
+  Button,
+  Input,
+} from "@nextui-org/react";
 import SearchIcon from "../../Assets/Icons/SearchIcon";
 import BellIcon from "../../Assets/Icons/BellIcon";
 
@@ -25,15 +33,14 @@ export default function CustomNavbar() {
       maxWidth="2xl"
       position="sticky"
     >
-        
-        
       <NavbarContent justify="start">
-      <Input
+        <Input
           classNames={{
             base: "max-w-full sm:max-w-[24rem] h-10",
             mainWrapper: "h-full w-full ",
             input: "text-small w-full",
-            inputWrapper: "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20 w-full ",
+            inputWrapper:
+              "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20 w-full ",
           }}
           fullWidth={true}
           placeholder="Type to search..."
