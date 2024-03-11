@@ -1,14 +1,9 @@
-import React, { ReactNode } from "react";
-import SidePanel from "../Components/SidePanel";
+import React, { ReactNode, useState } from "react";
 import CustomTable, { Column } from "../Core/CustomTable";
 import CustomTableCell from "../Components/Atoms/CustomTableCell";
 import NextTable from "../Components/NextTable/Table";
-import { users } from "../../Assets/data";
-import { useAppController } from "../Core/AppController";
 import ApexCharts from "../Components/Charts/ApexCharts";
-import { Stats } from "../Components/Atoms/Stats";
-import UserMinusIcon from "../../Assets/Icons/UserMinusIcon";
-import AvatarGroups from "../Components/Atoms/AvatarGroups";
+import { ProjectStats } from "../Components/Atoms/ProjectStats";
 import PrecentageUp from "../Components/Atoms/PrecentageUp";
 import ChartStatIcon from "../../Assets/Icons/ChartStatsIcon";
 import MiniCard from "../Components/Atoms/MiniCard";
@@ -21,6 +16,8 @@ import { getCurrentDateIndonesianFormat } from "../Library/utils/helper";
 import CustomActionCell from "../Components/Atoms/CustomActionCell";
 import CustomUserTableCell from "../Components/Atoms/CustomUserTableCell";
 import { Chip } from "@nextui-org/react";
+import "react-vertical-timeline-component/style.min.css";
+import VerticalAccor from "../Components/VerticalAccor/VerticalAccor";
 
 type Data = {
   key: string;
@@ -93,9 +90,8 @@ const Dashboard = () => {
     <div className="w-full h-full p-2">
       <div className="grid grid-rows-8 grid-cols-6 grid-flow-col gap-2">
         <div className="row-span-3  col-span-4 pb-0">
-          <div className="flex">
-            <div className="w-60 3xl:w-72">
-              <h1 className="text-2xl dark:text-light">Overview</h1>
+          <div className="flex gap-2">
+            <div className="w-60 flex flex-col 3xl:w-72">
               <MiniCard
                 desc={getCurrentDateIndonesianFormat()}
                 icon={<CalendarIcon className="text-secondary text-3xl" />}
@@ -115,19 +111,20 @@ const Dashboard = () => {
                 icon={<TwoUsersIcon className="text-secondary text-3xl" />}
               />
             </div>
-            <div className="flex-auto shadow-sm rounded-xl">
-              <ApexCharts />
+            <div className="flex-auto rounded-xl bg-white">
+              <ApexCharts title="Task Improvement" />
             </div>
           </div>
         </div>
-        <div className="row-span-5 col-span-4 shadow-sm rounded-xl">
+        <div className="row-span-5 col-span-4">
+          <VerticalAccor title="Recent Activity" />
           {/* <NextTable /> */}
-          <CustomTable data={users} columns={columns} title="Recent Activity" />
+          {/* <CustomTable data={users} columns={columns} title="Recent Activity" /> */}
         </div>
-        <div className="row-span-full col-span-6">
-          <div className="flex flex-col gap-4 pt-8">
-            <Stats
-              label="Tasks"
+        <div className="row-span-full col-span-2 px-2">
+          <div className="flex flex-col gap-4">
+            <ProjectStats
+              title="HRM Web App"
               bottomContent={() => (
                 <PrecentageUp precentage="67.81%" desc="Since last week" />
               )}
@@ -136,7 +133,7 @@ const Dashboard = () => {
               status="Completed"
               summary={240}
             />
-            <Stats
+            {/* <ProjectStats
               label="Team Status"
               bottomContent={() => (
                 <div className="mt-2 flex items-center gap-2">
@@ -152,7 +149,7 @@ const Dashboard = () => {
               type="success"
               status="Staff Active"
               summary={69}
-            />
+            /> */}
           </div>
         </div>
       </div>

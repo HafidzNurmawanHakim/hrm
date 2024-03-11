@@ -16,13 +16,12 @@ interface MonthViewProps {
 }
 
 const MonthViewCalendar: FC<MonthViewProps> = ({ currentMonth, load }) => {
-  console.log({ currentMonth });
   return (
     <Table
       removeWrapper
       color="secondary"
       classNames={{
-        td: ["h-32 w-32 overflow-hidden rounded-2xl  dark:border-background"],
+        td: ["h-40 w-32 overflow-hidden rounded-2xl  dark:border-background"],
         tr: ["rounded-xl"],
 
         base: ["w-full max-w-[1280px] ml-4"],

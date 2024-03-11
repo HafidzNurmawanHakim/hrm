@@ -26,6 +26,7 @@ import DayViewCalendar from "./DayViewCalendar";
 import MonthPagination from "./Atoms/MonthPagination";
 import YearViewCalendar from "./YearViewCalendar";
 import { useAppController } from "../Core/AppController";
+import TaskTrackerSchedule from "./TaskTrackerSchedule";
 
 const ButtonType: Array<{ viewType: ViewType; icon: ReactElement }> = [
   {
@@ -99,7 +100,7 @@ const Calendar: FC<CalendarProps> = ({
           )}
         >
           {viewType === "Year" ? (
-            <div className="pt-4 pb-4 pb-2 px-6 flex justify-between w-full max-w-[1280px] rounded-md items-center bg-white my-2 ml-4">
+            <div className="py-6 px-6 flex justify-between w-full max-w-[1280px] rounded-md items-center bg-white my-2 ml-4">
               <Button
                 aria-label="next page"
                 isIconOnly
@@ -130,7 +131,7 @@ const Calendar: FC<CalendarProps> = ({
                 page={month}
               />
 
-              <div className="text-gray-500 text-2xl bg-white flex gap-2 items-center p-2 rounded mr-4">
+              <div className="text-gray-500 text-2xl bg-white flex gap-8 items-center p-2 rounded mr-4">
                 <Button
                   aria-label="next page"
                   isIconOnly
@@ -156,37 +157,40 @@ const Calendar: FC<CalendarProps> = ({
             </div>
           )}
         </div>
-        {holdOn ? (
-          <div className="flex items-center justify-center m-2 bg-white rounded-md w-20">
-            <Button isIconOnly color="secondary" variant="flat">
-              <BackwardItem />
-            </Button>
-          </div>
-        ) : (
-          <div className="w-[28%]">
-            <div className="text-gray-500 text-2xl flex gap-4 items-center p-8 justify-end">
-              {ButtonType.map((item, i) => {
-                return (
-                  <Tooltip content={item.viewType} key={i}>
-                    <Button
-                      size="sm"
-                      color="secondary"
-                      variant={item.viewType === viewType ? "flat" : "light"}
-                      isIconOnly
-                      onClick={() => setViewType(item.viewType)}
-                    >
-                      {item.icon}
-                    </Button>
-                  </Tooltip>
-                );
-              })}
+        <div
+          className={cn(
+            "bg-white mt-2 flex items-center justify-end pr-4 rounded-md h-fit py-6",
+            holdOn ? "w-[22%]" : "w-[28%]"
+          )}
+        >
+          <div className="text-gray-500 text-2xl flex gap-4 items-center justify-end bg-white rounded-md">
+            {ButtonType.map((item, i) => {
+              return (
+                <Tooltip content={item.viewType} key={i}>
+                  <Button
+                    size="sm"
+                    color="secondary"
+                    variant={item.viewType === viewType ? "flat" : "light"}
+                    isIconOnly
+                    onClick={() => setViewType(item.viewType)}
+                  >
+                    {item.icon}
+                  </Button>
+                </Tooltip>
+              );
+            })}
 
+            {holdOn ? (
+              <Button size="sm" color="secondary" startContent={<PlusIcon />}>
+                Task
+              </Button>
+            ) : (
               <Button size="sm" color="secondary" startContent={<PlusIcon />}>
                 Create Task
               </Button>
-            </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
 
       <div
@@ -212,7 +216,9 @@ const Calendar: FC<CalendarProps> = ({
             <YearViewCalendar currentYear={currentYear} />
           )}
         </div>
-        <div className="w-[28%]">hola</div>
+        <div className="w-[28%]">
+          <TaskTrackerSchedule />
+        </div>
       </div>
     </div>
   );

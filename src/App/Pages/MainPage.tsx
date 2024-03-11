@@ -13,7 +13,7 @@ const MainPage = () => {
       <SidePanel />
       <div
         className={`dark:bg-background transition-all p-2 h-screen duration-300 overflow-auto bg-base pt-0 pl-0 ${
-          holdOn ? "ml-[300px]" : "ml-16"
+          holdOn ? "ml-[340px]" : "ml-24"
         }`}
       >
         <div className="">

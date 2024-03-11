@@ -12,6 +12,10 @@
       /* outline: 1px solid #f00 !important; */
 }
 
+.custom-transition {
+   transition: all 0.7s cubic-bezier(0.2, 1, 0.25, 1);
+}
+
 
 @layer base {
    html {
@@ -34,3 +38,32 @@
 .h-140 {
    height: 43rem;
 }
+
+.pane {
+   transition:all 0.7s cubic-bezier(0.2, 1, 0.25, 1);
+}
+
+.pane.active {
+   flex-grow: 10;
+   max-width: 100%;
+ }
+ 
+ .pane.active .background {
+   transform: scale(1.25, 1.25);
+ }
+ 
+ .pane.active .label {
+   @media (min-width: 640px) {
+       transform: translateX(0.5rem);
+   }
+ }
+ 
+ .pane.active .label .content > * {
+   opacity: 1;
+   transform: translateX(0);
+ }
+ 
+ .pane.active .shadow {
+   opacity: 0.75;
+   transform: translateY(0);
+ }
