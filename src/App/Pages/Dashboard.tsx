@@ -18,6 +18,7 @@ import CustomUserTableCell from "../Components/Atoms/CustomUserTableCell";
 import { Chip } from "@nextui-org/react";
 import "react-vertical-timeline-component/style.min.css";
 import VerticalAccor from "../Components/VerticalAccor/VerticalAccor";
+import { InfoCircle } from "iconsax-react";
 
 type Data = {
   key: string;
@@ -112,44 +113,33 @@ const Dashboard = () => {
               />
             </div>
             <div className="flex-auto rounded-xl bg-white">
-              <ApexCharts title="Task Improvement" />
+              <ApexCharts title="Project Improvement" />
             </div>
           </div>
         </div>
         <div className="row-span-5 col-span-4">
           <VerticalAccor title="Recent Activity" />
-          {/* <NextTable /> */}
-          {/* <CustomTable data={users} columns={columns} title="Recent Activity" /> */}
         </div>
         <div className="row-span-full col-span-2 px-2">
+          <div className="bg-red-100 rounded-xl h-20 mb-2 flex items-center px-4 text-secondary gap-2">
+            <InfoCircle size={28} />
+            <p>You haven't updated your email!</p>
+          </div>
           <div className="flex flex-col gap-4">
             <ProjectStats
               title="HRM Web App"
-              bottomContent={() => (
-                <PrecentageUp precentage="67.81%" desc="Since last week" />
-              )}
-              icon={<ChartStatIcon className="text-4xl" />}
-              type="success"
-              status="Completed"
-              summary={240}
+              status="On Going"
+              daysLeft={240}
+              totalTask={287}
             />
-            {/* <ProjectStats
-              label="Team Status"
-              bottomContent={() => (
-                <div className="mt-2 flex items-center gap-2">
-                  <div className="w-fit">
-                    <AvatarGroups width="6" max={4} />
-                  </div>
-                  <p className="text-sm text-warning">
-                    Andrew and others are sick and paid leave
-                  </p>
-                </div>
-              )}
-              icon={<UserMinusIcon className="text-4xl" />}
-              type="success"
-              status="Staff Active"
-              summary={69}
-            /> */}
+            <ProjectStats
+              title="POS Web App"
+              colorType="success"
+              status="On Going"
+              daysLeft={120}
+              totalTask={97}
+              chartType="line"
+            />
           </div>
         </div>
       </div>

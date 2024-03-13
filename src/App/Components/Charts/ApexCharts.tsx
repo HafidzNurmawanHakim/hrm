@@ -18,7 +18,7 @@ const ApexCharts = (props: ApexChartsProps) => {
   }, [holdOn, showPanel]);
   const options: ApexOptions = {
     xaxis: {
-      categories: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      categories: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
       axisBorder: {
         show: false,
         color: "transparent",
@@ -84,15 +84,15 @@ const ApexCharts = (props: ApexChartsProps) => {
   const series: ApexAxisChartSeries = [
     {
       name: "series-1",
-      data: [30, 40, 25, 50, 49, 21, 70, 51],
+      data: [30, 40, 25, 50, 49, 21, 70],
     },
     {
       name: "series-2",
-      data: [23, 12, 54, 61, 32, 56, 81, 19],
+      data: [23, 12, 54, 61, 32, 56, 81],
     },
     {
       name: "series-3",
-      data: [24, 20, 5, 75, 42, 79, 72, 35],
+      data: [24, 20, 5, 75, 42, 79, 72],
     },
   ];
   return (

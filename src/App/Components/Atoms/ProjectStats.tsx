@@ -10,24 +10,47 @@ import {
   CardFooter,
   CardHeader,
   Divider,
+  Progress,
+  Tooltip,
+  cn,
 } from "@nextui-org/react";
 import DonutCharts from "../Charts/DonutCharts";
 import CircularProgress from "./CircularProgress";
 import { Clock, ForwardItem } from "iconsax-react";
+import ColumnChart from "../Charts/ColumnChart";
+import LineChart from "../Charts/LineChart";
 
 interface ProjectStatsProps {
   title: string;
-  type?: "success" | "warning";
-  icon?: ReactElement;
-  bottomContent?: () => ReactElement;
-  status?: string;
-  summary: string | number;
+  colorType?: "danger" | "success" | "default";
+  chartType?: "bar" | "line";
+  status: string;
+  totalTask?: number;
+  daysLeft?: number;
 }
 
+const bgColor = {
+  danger: "bg-gradient-to-r from-white to-rose-100",
+  success: "bg-gradient-to-r from-white to-emerald-100",
+  default: "bg-white",
+};
+
 export const ProjectStats = (props: ProjectStatsProps) => {
-  const { title, type, icon, bottomContent, status, summary } = props;
+  const {
+    title,
+    colorType = "default",
+    status,
+    chartType = "bar",
+    totalTask,
+    daysLeft,
+  } = props;
   return (
-    <Card className="shadow-none hover:border-secondary ">
+    <Card
+      className={cn(
+        "shadow-none hover:border-secondary",
+        bgColor[colorType as keyof typeof bgColor]
+      )}
+    >
       <CardHeader className="px-6 pt-6 pb-0 justify-between">
         <p className="text-xl text-gray-600">{title}</p>
         <Chip
@@ -36,37 +59,45 @@ export const ProjectStats = (props: ProjectStatsProps) => {
           variant="flat"
           color="secondary"
         >
-          On Going
+          {status}
         </Chip>
       </CardHeader>
-      <CardBody className="flex flex-row gap-2 ">
-        <div className="w-48 px-4 ">
-          <div className="flex mb-4 gap-2">
+      <CardBody className="flex flex-row gap-2">
+        <div className="w-52 flex flex-col px-4 gap-4">
+          <div className="flex gap-2">
             <ForwardItem size="24" className="text-gray-400" />
-            <span className=" ">165 Tasks</span>
+            <span className="">{totalTask} Tasks</span>
           </div>
-          <div className="flex mb-4 gap-2">
+          <div className="flex gap-2">
             <Clock size="24" className="text-gray-400" />
-            <span className=" ">165 Days Left</span>
+            <span className=" ">{daysLeft} Days Left</span>
           </div>
+          <div className="w-fit mt-2 mb-2">
+            <Tooltip content="Participants" placement="bottom">
+              <AvatarGroup isBordered size="sm" max={4}>
+                <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
+                <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
+                <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
+                <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
+                <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
+                <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
+              </AvatarGroup>
+            </Tooltip>
+          </div>
+          {/* <Progress
+            size="sm"
+            label="Progress"
+            aria-label="Progress"
+            value={48}
+            valueLabel="48%"
+            showValueLabel
+          /> */}
         </div>
 
-        <div className="grow ">
-          <CircularProgress color="red-200" />
+        <div className="grow">
+          {chartType === "bar" ? <ColumnChart /> : <LineChart />}
         </div>
       </CardBody>
-      <CardFooter className="pl-6">
-        <div className="w-fit">
-          <AvatarGroup isBordered size="md" max={4}>
-            <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-            <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
-            <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
-            <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
-            <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
-            <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
-          </AvatarGroup>
-        </div>
-      </CardFooter>
     </Card>
   );
 };
