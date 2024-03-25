@@ -11,14 +11,19 @@ import InboxStackIcon from "../../Assets/Icons/InboxStack";
 import ClipBoardTask from "../../Assets/Icons/ClipBoardTaskIcon";
 import TwoUsersIcon from "../../Assets/Icons/TwoUsersIcon";
 import CalendarIcon from "../../Assets/Icons/CalendarIcons";
-import { DayEn, statusColorMap } from "../Library/_types/General";
+import {
+  BaseColor,
+  DayEn,
+  Priority,
+  statusColorMap,
+} from "../Library/_types/General";
 import { getCurrentDateIndonesianFormat } from "../Library/utils/helper";
 import CustomActionCell from "../Components/Atoms/CustomActionCell";
 import CustomUserTableCell from "../Components/Atoms/CustomUserTableCell";
-import { Chip } from "@nextui-org/react";
-import "react-vertical-timeline-component/style.min.css";
+import { Card, CardBody, CardHeader, Chip } from "@nextui-org/react";
 import VerticalAccor from "../Components/VerticalAccor/VerticalAccor";
 import { InfoCircle } from "iconsax-react";
+import TaskReminder from "../Components/Atoms/TaskReminder";
 
 type Data = {
   key: string;
@@ -26,6 +31,31 @@ type Data = {
   role: string;
   status: string;
 };
+
+const taskReminder = [
+  {
+    taskTitle: "Design Calendar",
+    hour: "09:00 AM",
+    baseColor: "danger",
+    taskDesc: "Create a new design for the upcoming calendar.",
+    priority: "high" as Priority, // Contoh penggunaan tipe Priority
+  },
+  {
+    taskTitle: "Review Meeting Agenda",
+    hour: "11:30 AM",
+    baseColor: "warning",
+    taskDesc: "Review and finalize the agenda for the team meeting.",
+    priority: "medium" as Priority, // Contoh penggunaan tipe Priority
+  },
+  {
+    taskTitle: "Prepare Presentation",
+    hour: "02:00 PM",
+    baseColor: "violet",
+    taskDesc:
+      "Gather materials and prepare slides for tomorrow's presentation.",
+    priority: "low" as Priority, // Contoh penggunaan tipe Priority
+  },
+];
 
 const Dashboard = () => {
   const columns: Column[] = [
@@ -112,7 +142,7 @@ const Dashboard = () => {
                 icon={<TwoUsersIcon className="text-secondary text-3xl" />}
               />
             </div>
-            <div className="flex-auto rounded-xl bg-white">
+            <div className="flex-auto rounded-xl bg-foreground">
               <ApexCharts title="Project Improvement" />
             </div>
           </div>
@@ -121,11 +151,28 @@ const Dashboard = () => {
           <VerticalAccor title="Recent Activity" />
         </div>
         <div className="row-span-full col-span-2 px-2">
-          <div className="bg-red-100 rounded-xl h-20 mb-2 flex items-center px-4 text-secondary gap-2">
+          <div className="bg-red-100 dark:bg-danger rounded-xl h-20 mb-2 flex items-center text-danger dark:text-fontBase px-4 text-s gap-2">
             <InfoCircle size={28} />
-            <p>You haven't updated your email!</p>
+            <p className="text-danger dark:text-fontBase">
+              You haven't updated your email!
+            </p>
           </div>
           <div className="flex flex-col gap-4">
+            <Card className="w-full bg-foreground rounded-md shadow-none">
+              <CardHeader className="pb-0">
+                <h3 className="text-fontHeader">To Do</h3>
+              </CardHeader>
+              <CardBody className="flex flex-col gap-2">
+                {taskReminder.map((task, i) => {
+                  return (
+                    <TaskReminder
+                      {...task}
+                      baseColor={task.baseColor as BaseColor}
+                    />
+                  );
+                })}
+              </CardBody>
+            </Card>
             <ProjectStats
               title="HRM Web App"
               status="On Going"
@@ -134,7 +181,6 @@ const Dashboard = () => {
             />
             <ProjectStats
               title="POS Web App"
-              colorType="success"
               status="On Going"
               daysLeft={120}
               totalTask={97}

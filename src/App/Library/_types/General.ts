@@ -35,3 +35,15 @@ export const statusColorMap: Record<string, ChipProps["color"]> = {
    vacation: "warning",
 };
 
+
+export type BaseColor = 'success' | 'danger' | 'warning' | 'violet' | 'default' | 'primary'
+export type Priority = 'high' | 'medium' | 'low' 
+
+export const colorConfig = {
+   warning: 'bg-amber-300',
+   danger: 'bg-red-300',
+   primary: 'bg-blue-300',
+   violet: 'bg-violet-300',
+   success: 'bg-emerald-300',
+   default: 'bg-white'
+}  

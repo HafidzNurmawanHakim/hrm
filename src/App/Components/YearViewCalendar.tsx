@@ -25,7 +25,7 @@ interface YearViewCalendar {
 const YearViewCalendar: FC<YearViewCalendar> = ({ currentYear }) => {
   console.log({ currentYear });
   return (
-    <div className="w-full max-w-[1280px] bg-white p-4 rounded-xl ml-4 flex justify-center flex-col">
+    <div className="w-full max-w-[1280px] bg-foreground p-4 rounded-xl ml-4 flex justify-center flex-col">
       <div className="w-full flex flex-wrap gap-4">
         {currentYear.map((yearItem) => {
           console.log({ yearItem });
@@ -44,7 +44,7 @@ const YearViewCalendar: FC<YearViewCalendar> = ({ currentYear }) => {
                       const isSunday = index === 0;
                       return (
                         <TableColumn
-                          className={`text-center bg-white text-secondary ${
+                          className={`text-center bg-foreground text-secondary ${
                             isSunday && "bg-red-300 text-danger rounded-md"
                           }`}
                           key={index}

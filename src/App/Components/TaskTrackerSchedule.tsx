@@ -15,7 +15,7 @@ import React from "react";
 
 const TaskTrackerSchedule = () => {
   return (
-    <div className="w-full h-full bg-white p-4 rounded-xl flex flex-col">
+    <div className="w-full h-full bg-foreground p-4 rounded-xl flex flex-col">
       <div className="mb-6">Highlighted Tasks</div>
       <div id="task-highlight" className="">
         <Card

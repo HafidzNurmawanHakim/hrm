@@ -100,7 +100,7 @@ const Calendar: FC<CalendarProps> = ({
           )}
         >
           {viewType === "Year" ? (
-            <div className="py-6 px-6 flex justify-between w-full max-w-[1280px] rounded-md items-center bg-white my-2 ml-4">
+            <div className="py-6 px-6 flex justify-between w-full max-w-[1280px] rounded-md items-center bg-foreground my-2 ml-4">
               <Button
                 aria-label="next page"
                 isIconOnly
@@ -124,14 +124,14 @@ const Calendar: FC<CalendarProps> = ({
               </Button>
             </div>
           ) : (
-            <div className="pt-4 pb-4 pb-2 px-6 flex justify-between w-full max-w-[1280px] rounded-md items-center bg-white my-2 ml-4">
+            <div className="pt-4 pb-4 pb-2 px-6 flex justify-between w-full max-w-[1280px] rounded-md items-center bg-foreground my-2 ml-4">
               <MonthPagination
                 pageMonth={monthsAsObjects}
                 setMonth={(page) => setMonth(page)}
                 page={month}
               />
 
-              <div className="text-gray-500 text-2xl bg-white flex gap-8 items-center p-2 rounded mr-4">
+              <div className="text-gray-500 text-2xl bg-foreground flex gap-8 items-center p-2 rounded mr-4">
                 <Button
                   aria-label="next page"
                   isIconOnly
@@ -159,11 +159,11 @@ const Calendar: FC<CalendarProps> = ({
         </div>
         <div
           className={cn(
-            "bg-white mt-2 flex items-center justify-end pr-4 rounded-md h-fit py-6",
+            "bg-foreground mt-2 flex items-center justify-end pr-4 rounded-md h-fit py-6",
             holdOn ? "w-[22%]" : "w-[28%]"
           )}
         >
-          <div className="text-gray-500 text-2xl flex gap-4 items-center justify-end bg-white rounded-md">
+          <div className="text-gray-500 text-2xl flex gap-4 items-center justify-end bg-foreground rounded-md">
             {ButtonType.map((item, i) => {
               return (
                 <Tooltip content={item.viewType} key={i}>

@@ -7,6 +7,7 @@ import {
 } from "@nextui-org/react";
 import React, { FC } from "react";
 import TimelineDate from "./TimelineDate";
+import { useAppController } from "../../Core/AppController";
 
 interface TimelineItemProps {
   user: string;
@@ -37,12 +38,14 @@ const TimelineItem: FC<TimelineItemProps> = ({
   time,
   date,
 }) => {
+  const { isDarkTheme } = useAppController();
+
   return (
     <div className="flex gap-1">
       <div className="w-24 flex items-center justify-center">
         <TimelineDate date={date} />
       </div>
-      <span className="w-[6px] bg-green-300 flex items-center rounded-md">
+      <span className="w-[6px] bg-green-300 dark:bg-secondary flex items-center rounded-md">
         <span className="relative">
           <span className="absolute w-4 h-4 rounded-full bg-red-200 rotate-45 transform origin-top-right -translate-x-[2px]"></span>
         </span>
@@ -50,25 +53,29 @@ const TimelineItem: FC<TimelineItemProps> = ({
       <div className="grow relative pl-2">
         <div className="flex items-center justify-start">
           <div className="w-3 overflow-hidden">
-            <div className="h-4 bg-green-200 rotate-45 transform origin-bottom-right rounded-sm"></div>
+            <div className="h-4 bg-green-200 dark:bg-secondary rotate-45 transform origin-bottom-right rounded-sm"></div>
           </div>
-          <div className="bg-green-200 p-1 my-6 rounded-lg flex-1">
+          <div className="bg-green-200 dark:bg-secondary p-1 my-6 rounded-lg flex-1">
             <Card className="shadow-none p-0 rounded-md bg-transparent">
               <CardHeader className="py-0 text-md gap-2">
-                <p>{user}</p>
-                <p className="text-sm text-gray-500 italic">
+                <p className="text-black dark:text-white">{user}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-300 italic">
                   {updateType[type as keyof typeof updateType]}
                 </p>
               </CardHeader>
               <CardBody className="py-1 text-md text-sm">
                 <div className="">
-                  {<p>{comment ? comment : null}</p>}
+                  {
+                    <p className="dark:text-white text-fontBase">
+                      {comment ? comment : null}
+                    </p>
+                  }
                   {updateProgress ? (
                     <div className="flex items-center gap-2">
                       <Chip
                         size="sm"
                         className="rounded-md text-sm font-sans"
-                        variant="flat"
+                        variant={isDarkTheme ? "solid" : "flat"}
                         color="default"
                       >
                         {
@@ -77,11 +84,11 @@ const TimelineItem: FC<TimelineItemProps> = ({
                           ]
                         }
                       </Chip>
-                      <span>to</span>
+                      <span className="dark:text-white text-fontBase">to</span>
                       <Chip
                         size="sm"
                         className="rounded-md text-sm font-sans"
-                        variant="flat"
+                        variant={isDarkTheme ? "solid" : "flat"}
                         color="secondary"
                       >
                         {
@@ -94,7 +101,7 @@ const TimelineItem: FC<TimelineItemProps> = ({
                   ) : null}
                 </div>
               </CardBody>
-              <CardFooter className="py-0 text-sm text-gray-500">
+              <CardFooter className="py-0 text-sm text-gray-500 dark:text-gray-300">
                 {time}
               </CardFooter>
             </Card>

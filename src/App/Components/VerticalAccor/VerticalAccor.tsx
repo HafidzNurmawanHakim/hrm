@@ -67,8 +67,8 @@ const VerticalAccor: FC<VerticalAccorProps> = ({ title = "" }) => {
 
   return (
     <Card shadow="none" className="w-full bg-base rounded-md shadow-none">
-      <CardHeader className="rounded-md bg-white justify-between">
-        <h1 className="">{title}</h1>
+      <CardHeader className="rounded-md bg-foreground justify-between">
+        <h1 className="text-fontBase">{title}</h1>
         <Link size="sm" isExternal href="">
           View All
         </Link>
@@ -83,7 +83,7 @@ const VerticalAccor: FC<VerticalAccorProps> = ({ title = "" }) => {
                 isHoverable
                 isPressable
                 className={cn(
-                  "pane bg-white rounded-xl delay-0 outline-none w-24 shadow-none overflow-hidden",
+                  "pane bg-foreground rounded-xl delay-0 outline-none w-24 shadow-none overflow-hidden",
                   index === 0 && "active"
                 )}
                 onPress={() => handleClick(index)}
@@ -93,11 +93,11 @@ const VerticalAccor: FC<VerticalAccorProps> = ({ title = "" }) => {
                     <Avatar src={item} size="lg" />
                     <div
                       className={cn(
-                        "overflow-hidden ml-2 custom-transition",
+                        "overflow-hidden ml-2 custom-transition ",
                         isActive ? "w-30" : "w-0 delay-150 hidden"
                       )}
                     >
-                      <p>Hafidz Hakim</p>
+                      <p className="text-fontHeader">Hafidz Hakim</p>
                       <Chip
                         size="sm"
                         className="text-sm"
@@ -137,7 +137,7 @@ const VerticalAccor: FC<VerticalAccorProps> = ({ title = "" }) => {
                 <CardBody>
                   {isActive ? (
                     <>
-                      <div className="text-desc text-md p-2 text-gray-400">
+                      <div className="text-desc text-md p-2 text-fontBase">
                         Lorem ipsum dolor sit amet, consectetur adipisicing
                         elit. Aliquam maiores molestias nobis quas voluptatum
                         sint similique, recusandae harum excepturi nostrum?

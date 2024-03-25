@@ -10,8 +10,12 @@ import {
 } from "@nextui-org/react";
 import SearchIcon from "../../Assets/Icons/SearchIcon";
 import BellIcon from "../../Assets/Icons/BellIcon";
+import { ThemeSwitch } from "./Atoms/ThemeSwitch";
+import { useAppController } from "../Core/AppController";
 
 export default function CustomNavbar() {
+  const { themeToggle } = useAppController();
+
   return (
     <Navbar
       classNames={{
@@ -29,9 +33,10 @@ export default function CustomNavbar() {
           "data-[active=true]:after:rounded-[2px]",
           "data-[active=true]:after:bg-primary",
         ],
+        base: ["bg-transparent"],
+        wrapper: ["bg-foreground h-20 rounded-md mx-2"],
       }}
-      maxWidth="2xl"
-      position="sticky"
+      maxWidth="full"
     >
       <NavbarContent justify="start">
         <Input
@@ -51,7 +56,7 @@ export default function CustomNavbar() {
         />
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
+        {/* <NavbarItem>
           <Link color="foreground" href="#">
             Features
           </Link>
@@ -65,9 +70,12 @@ export default function CustomNavbar() {
           <Link color="foreground" href="#">
             Integrations
           </Link>
-        </NavbarItem>
+        </NavbarItem> */}
       </NavbarContent>
       <NavbarContent justify="end">
+        <NavbarItem className="hidden lg:flex">
+          <ThemeSwitch />
+        </NavbarItem>
         <NavbarItem className="hidden lg:flex">
           <Button color="secondary" radius="full" isIconOnly>
             <BellIcon />

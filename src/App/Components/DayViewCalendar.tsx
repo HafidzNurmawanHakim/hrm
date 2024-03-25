@@ -231,7 +231,7 @@ const DayViewCalendar: FC<DayViewProps> = ({ currentMonthForDay, load }) => {
 
   return (
     <>
-      <div className="w-full max-w-[1280px] bg-white p-4 rounded-xl ml-4 flex justify-center flex-col">
+      <div className="w-full max-w-[1280px] bg-foreground p-4 rounded-xl ml-4 flex justify-center flex-col">
         <DayPagination summary={currentMonthForDay} pageDay={currDay} />
         <div className="my-2 max-h-[70vh] overflow-y-scroll overflow-x-hidden">
           {taskHour.map((item, i) => {

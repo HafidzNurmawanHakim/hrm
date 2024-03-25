@@ -30,9 +30,9 @@ interface ProjectStatsProps {
 }
 
 const bgColor = {
-  danger: "bg-gradient-to-r from-white to-rose-100",
-  success: "bg-gradient-to-r from-white to-emerald-100",
-  default: "bg-white",
+  danger: "bg-gradient-to-r from-foreground to-rose-100",
+  success: "bg-gradient-to-r from-foreground to-emerald-900",
+  default: "bg-foreground",
 };
 
 export const ProjectStats = (props: ProjectStatsProps) => {
@@ -52,7 +52,7 @@ export const ProjectStats = (props: ProjectStatsProps) => {
       )}
     >
       <CardHeader className="px-6 pt-6 pb-0 justify-between">
-        <p className="text-xl text-gray-600">{title}</p>
+        <p className="text-xl text-fontHeader">{title}</p>
         <Chip
           size="md"
           className="rounded-md text-sm font-sans"
@@ -62,15 +62,15 @@ export const ProjectStats = (props: ProjectStatsProps) => {
           {status}
         </Chip>
       </CardHeader>
-      <CardBody className="flex flex-row gap-2">
+      <CardBody className="flex flex-row gap-2 pb-1 overflow-hidden">
         <div className="w-52 flex flex-col px-4 gap-4">
           <div className="flex gap-2">
             <ForwardItem size="24" className="text-gray-400" />
-            <span className="">{totalTask} Tasks</span>
+            <span className="text-fontBase">{totalTask} Tasks</span>
           </div>
           <div className="flex gap-2">
             <Clock size="24" className="text-gray-400" />
-            <span className=" ">{daysLeft} Days Left</span>
+            <span className="text-fontBase">{daysLeft} Days Left</span>
           </div>
           <div className="w-fit mt-2 mb-2">
             <Tooltip content="Participants" placement="bottom">

@@ -14,7 +14,7 @@ const MiniCard = (props: MiniCardProps) => {
   return (
     <a
       href="#"
-      className="transition-all duration-300 relative my-1 flex items-center gap-2 overflow-hidden rounded-lg bg-white sm:p-8 lg:p-6"
+      className="transition-all duration-300 relative my-1 flex items-center gap-2 overflow-hidden rounded-lg bg-foreground sm:p-8 lg:p-6"
     >
       <span className="absolute inset-x-0 bottom-0 h-[4px] bg-gradient-to-r from-purple-300 via-blue-500 to-purple-600"></span>
 

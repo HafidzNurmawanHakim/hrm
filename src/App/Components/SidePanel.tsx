@@ -8,6 +8,14 @@ import MenuWithSubItem from "./Atoms/MenuWithSubItem";
 import HomeIcons from "../../Assets/Icons/HomeIcons";
 import DotCalendarIcon from "../../Assets/Icons/DotCalendarIcon";
 import LogoutIcon from "../../Assets/Icons/LogoutIcon";
+import {
+  Calendar,
+  Home2,
+  NoteText,
+  Profile2User,
+  Setting2,
+} from "iconsax-react";
+import { NavLink } from "react-router-dom";
 
 const SidePanel = () => {
   const { holdOn, setHoldOn, setShowPanel, showPanel, themeToggle } =
@@ -24,7 +32,7 @@ const SidePanel = () => {
   return (
     <div className="flex absolute left-0 z-50 max-w-[340px]">
       <div
-        className="flex h-screen w-24 flex-col justify-between bg-white dark:bg-background"
+        className="flex h-screen w-24 flex-col justify-between bg-foreground "
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -38,88 +46,46 @@ const SidePanel = () => {
           <div className="">
             <div className="px-2">
               <div className="py-4">
-                <a
-                  href=""
+                <NavLink
+                  to="/"
                   className="t group relative flex justify-center rounded px-2 py-1.5 text-secondary"
                 >
-                  <HomeIcons />
-                </a>
+                  <Home2 size={30} />
+                </NavLink>
               </div>
 
               <ul className="space-y-1 pt-4">
                 <li>
-                  <a
-                    href="/schedule"
+                  <NavLink
+                    to="/schedule"
                     className="group relative flex justify-center rounded px-2 py-1.5 text-secondary"
                   >
-                    <DotCalendarIcon />
-                  </a>
+                    <Calendar size={28} />
+                  </NavLink>
                 </li>
-
                 <li>
-                  <a
-                    href=""
-                    className="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                  <NavLink
+                    to="/schedule"
+                    className="group relative flex justify-center rounded px-2 py-1.5 text-secondary"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 opacity-75"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                      />
-                    </svg>
-                  </a>
+                    <Profile2User size={28} />
+                  </NavLink>
                 </li>
-
                 <li>
-                  <a
-                    href=""
-                    className="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                  <NavLink
+                    to="/schedule"
+                    className="group relative flex justify-center rounded px-2 py-1.5 text-secondary"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 opacity-75"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </a>
+                    <NoteText size={28} />
+                  </NavLink>
                 </li>
-
                 <li>
-                  <a
-                    href=""
-                    className="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                  <NavLink
+                    to="/schedule"
+                    className="group relative flex justify-center rounded px-2 py-1.5 text-secondary"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 opacity-75"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                      />
-                    </svg>
-                  </a>
+                    <Setting2 size={28} />
+                  </NavLink>
                 </li>
               </ul>
             </div>
@@ -130,7 +96,6 @@ const SidePanel = () => {
           <form action="/logout">
             <button
               type="button"
-              onClick={() => themeToggle()}
               className="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-secondary"
             >
               <LogoutIcon />
@@ -144,7 +109,7 @@ const SidePanel = () => {
       </div>
 
       <div
-        className={`flex h-screen flex-1 flex-col justify-between bg-white dark:bg-background overflow-hidden transition-all duration-300 relative ${
+        className={`flex h-screen flex-1 flex-col justify-between bg-foreground dark:bg-background overflow-hidden transition-all duration-300 relative ${
           holdOn || showPanel ? "w-[300px]" : "w-[0px]"
         }`}
         onMouseEnter={handleMouseEnter}

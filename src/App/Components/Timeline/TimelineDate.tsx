@@ -37,7 +37,7 @@ const TimelineDate: FC<TimelineDateProps> = ({ date }) => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      {day && <span>{day}</span>}
+      {day && <span className="text-fontHeader">{day}</span>}
       <p className="text-sm text-gray-400">{`${month}, ${year}`}</p>
     </div>
   );

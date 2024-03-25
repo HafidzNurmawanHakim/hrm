@@ -21,7 +21,7 @@ export const CellCalendar = (props: CellCalendar) => {
   return (
     <Card
       shadow="none"
-      className="relative bg-white w-full h-full rounded-xl overflow-hidden "
+      className="relative bg-foreground w-full h-full rounded-xl overflow-hidden "
     >
       {isWeekend && (
         <span className="absolute right-2 h-[80%] mt-4 w-[5px] h-full bg-red-200 rounded-full"></span>
