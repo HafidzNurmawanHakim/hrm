@@ -12,21 +12,28 @@ import {
 } from "@nextui-org/react";
 import { MessageText } from "iconsax-react";
 import React from "react";
+import { useAppController } from "../Core/AppController";
 
 const TaskTrackerSchedule = () => {
+  const { isDarkTheme } = useAppController();
+
   return (
     <div className="w-full h-full bg-foreground p-4 rounded-xl flex flex-col">
-      <div className="mb-6">Highlighted Tasks</div>
+      <div className="mb-6 text-fontHeader">Highlighted Tasks</div>
       <div id="task-highlight" className="">
         <Card
           isHoverable
-          className="bg-red-50 rounded-md h-36 relative shadow-none cursor-pointer"
+          className="bg-red-50 dark:bg-darkBase rounded-md h-36 relative shadow-none cursor-pointer"
         >
-          <span className="absolute right-2 h-4/5 bg-red-300 rounded w-2 block top-[12px]"></span>
+          <span className="absolute right-2 h-4/5 bg-red-300 dark:bg-red-400 rounded w-2 block top-[12px]"></span>
           <CardHeader className="gap-2 justify-between pr-8">
             <div className="flex gap-2">
-              <h3>Design Mockup</h3>
-              <Chip size="sm" color="primary" variant="flat">
+              <h3 className="text-fontHeader">Design Mockup</h3>
+              <Chip
+                size="sm"
+                color={isDarkTheme ? "default" : "primary"}
+                variant="flat"
+              >
                 Aug, 23 2001
               </Chip>
             </div>
@@ -39,7 +46,7 @@ const TaskTrackerSchedule = () => {
 
           <CardBody className="text-md py-1 flex gap-2">
             <div className="w-full h-full flex">
-              <p className="max-w-80 line-clamp-2">
+              <p className="max-w-80 line-clamp-2 text-fontBase">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque,
                 laudantium.akwdjakwdj
               </p>

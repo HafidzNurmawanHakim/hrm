@@ -16,41 +16,36 @@ interface TaskCardProps {
   hour: string;
   task: Array<any>;
   currentIndex: number;
+  loadEl: boolean;
 }
 
 const TaskCard = (props: TaskCardProps) => {
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 300);
-  }, [props.el]);
-
   const toRender = props.el[props.currentIndex];
-  if (loading) return <>load</>;
-
+  if (props.loadEl) return <>load</>;
   return (
-    <div className="w-full h-auto z-20 flex relative">
+    <div className="w-full h-auto z-20 flex relative pointer-events-none">
       {toRender?.toRender.map((itemHour, i) => {
         let id = itemHour.id;
         if (!id.startsWith("empty")) {
           return (
             <div
-              className={cn(itemHour.props?.className, "relative")}
+              className={cn(
+                itemHour.props?.className,
+                "relative pointer-events-auto"
+              )}
               key={itemHour.key}
               id={itemHour.id}
               data-from={itemHour.props?.dataFrom}
               data-to={itemHour.props?.dataTo}
             >
-              <span className="absolute left-1 h-[76%] mt-6 bg-red-200 w-2 z-50 rounded-md"></span>
+              <span className="absolute left-1 h-[76%] mt-6 bg-red-200 dark:bg-red-400 w-2 z-50 rounded-md"></span>
               <Card
                 radius="sm"
-                className="rounded-md h-full w-full outline-none shadow-sm absolute top-0 left-0 z-40"
+                className="rounded-md h-full w-full outline-none shadow-sm absolute top-0 left-0 z-40 dark:bg-darkBase"
                 shadow="none"
               >
                 <CardHeader className="pl-6 justify-between pt-2 items-start">
-                  <div className="max-w-36 text-md font-medium">
+                  <div className="max-w-36 text-md font-medium text-fontHeader">
                     {itemHour.props?.data?.title}
                   </div>
                   <div className="">
@@ -90,7 +85,7 @@ const TaskCard = (props: TaskCardProps) => {
                     </AvatarGroup>
                   </div>
                 </CardHeader>
-                <CardBody className=" pl-4 font-desc text-md truncate">
+                <CardBody className=" pl-4 font-desc text-md truncate text-fontBase">
                   {itemHour.props?.data?.desc}
                 </CardBody>
                 <CardFooter className="pl-4 justify-between">

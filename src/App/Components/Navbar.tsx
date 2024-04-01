@@ -34,7 +34,7 @@ export default function CustomNavbar() {
           "data-[active=true]:after:bg-primary",
         ],
         base: ["bg-transparent"],
-        wrapper: ["bg-foreground h-20 rounded-md mx-2"],
+        wrapper: ["bg-foreground h-20 rounded-md ml-4 "],
       }}
       maxWidth="full"
     >

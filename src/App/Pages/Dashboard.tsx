@@ -120,7 +120,7 @@ const Dashboard = () => {
   return (
     <div className="w-full h-full p-2">
       <div className="grid grid-rows-8 grid-cols-6 grid-flow-col gap-2">
-        <div className="row-span-3  col-span-4 pb-0">
+        <div className="row-span-3 col-span-4 pb-0 md:col-span-6 lg:col-span-4">
           <div className="flex gap-2">
             <div className="w-60 flex flex-col 3xl:w-72">
               <MiniCard
@@ -147,10 +147,10 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="row-span-5 col-span-4">
+        <div className="row-span-5 col-span-4 md:col-span-6 lg:col-span-4">
           <VerticalAccor title="Recent Activity" />
         </div>
-        <div className="row-span-full col-span-2 px-2">
+        <div className="row-span-full col-span-2 px-2 md:col-span-6 lg:col-span-2">
           <div className="bg-red-100 dark:bg-danger rounded-xl h-20 mb-2 flex items-center text-danger dark:text-fontBase px-4 text-s gap-2">
             <InfoCircle size={28} />
             <p className="text-danger dark:text-fontBase">
@@ -190,6 +190,79 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
+
+    // <div className="w-full h-full p-2">
+    //   <div className="grid grid-rows-8 grid-cols-6 grid-flow-col gap-2">
+    //     <div className="row-span-3  col-span-4 pb-0">
+    //       <div className="flex gap-2">
+    //         <div className="w-60 flex flex-col 3xl:w-72">
+    //           <MiniCard
+    //             desc={getCurrentDateIndonesianFormat()}
+    //             icon={<CalendarIcon className="text-secondary text-3xl" />}
+    //             type="date"
+    //             day={DayEn[new Date().getDay()]}
+    //           />
+    //           <MiniCard
+    //             desc="28 Total Projects Running"
+    //             icon={<InboxStackIcon className="text-secondary text-3xl" />}
+    //           />
+    //           <MiniCard
+    //             desc="312 Total Tasks"
+    //             icon={<ClipBoardTask className="text-secondary text-3xl" />}
+    //           />
+    //           <MiniCard
+    //             desc="96 Active Employees"
+    //             icon={<TwoUsersIcon className="text-secondary text-3xl" />}
+    //           />
+    //         </div>
+    //         <div className="flex-auto rounded-xl bg-foreground">
+    //           <ApexCharts title="Project Improvement" />
+    //         </div>
+    //       </div>
+    //     </div>
+    //     <div className="row-span-5 col-span-4">
+    //       <VerticalAccor title="Recent Activity" />
+    //     </div>
+    //     <div className="row-span-full col-span-2 px-2">
+    //       <div className="bg-red-100 dark:bg-danger rounded-xl h-20 mb-2 flex items-center text-danger dark:text-fontBase px-4 text-s gap-2">
+    //         <InfoCircle size={28} />
+    //         <p className="text-danger dark:text-fontBase">
+    //           You haven't updated your email!
+    //         </p>
+    //       </div>
+    //       <div className="flex flex-col gap-4">
+    //         <Card className="w-full bg-foreground rounded-md shadow-none">
+    //           <CardHeader className="pb-0">
+    //             <h3 className="text-fontHeader">To Do</h3>
+    //           </CardHeader>
+    //           <CardBody className="flex flex-col gap-2">
+    //             {taskReminder.map((task, i) => {
+    //               return (
+    //                 <TaskReminder
+    //                   {...task}
+    //                   baseColor={task.baseColor as BaseColor}
+    //                 />
+    //               );
+    //             })}
+    //           </CardBody>
+    //         </Card>
+    //         <ProjectStats
+    //           title="HRM Web App"
+    //           status="On Going"
+    //           daysLeft={240}
+    //           totalTask={287}
+    //         />
+    //         <ProjectStats
+    //           title="POS Web App"
+    //           status="On Going"
+    //           daysLeft={120}
+    //           totalTask={97}
+    //           chartType="line"
+    //         />
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
   );
 };
 

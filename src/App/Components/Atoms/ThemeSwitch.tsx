@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useAppController } from "../../Core/AppController";
 
 export const ThemeSwitch = (props: any) => {
-  const { themeToggle } = useAppController();
+  const { themeToggle, isDarkTheme } = useAppController();
   const {
     Component,
     slots,
@@ -33,7 +33,7 @@ export const ThemeSwitch = (props: any) => {
           ],
         })}
       >
-        {isSelected ? <Sun1 /> : <Moon />}
+        {isDarkTheme ? <Moon /> : <Sun1 />}
       </div>
     </Component>
   );

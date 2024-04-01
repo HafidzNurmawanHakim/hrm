@@ -23,9 +23,6 @@ export const CellCalendar = (props: CellCalendar) => {
       shadow="none"
       className="relative bg-foreground w-full h-full rounded-xl overflow-hidden "
     >
-      {isWeekend && (
-        <span className="absolute right-2 h-[80%] mt-4 w-[5px] h-full bg-red-200 rounded-full"></span>
-      )}
       <Popover placement="right-start" backdrop="blur">
         <PopoverTrigger>
           <Button
@@ -44,7 +41,7 @@ export const CellCalendar = (props: CellCalendar) => {
         </PopoverContent>
       </Popover>
       <Chip
-        color="secondary"
+        color={isWeekend ? "danger" : "secondary"}
         radius="sm"
         variant={isActive ? "flat" : "faded"}
         className="absolute left-[6px] bottom-[6px]"

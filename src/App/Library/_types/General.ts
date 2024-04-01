@@ -46,4 +46,35 @@ export const colorConfig = {
    violet: 'bg-violet-300',
    success: 'bg-emerald-300',
    default: 'bg-white'
-}  
+}
+
+export type StatusType = 'to_do' | 'in_progress' | 'in_review' | 'done'
+
+export type Status = {
+   type?: StatusType,
+   label: string
+   key: StatusType
+}
+
+export const status = [
+   {
+      type: 'to_do',
+      key: 'to_do',
+      label: 'To Do'
+   },
+   {
+      type: 'in_progress',
+      key: 'in_progress',
+      label: 'In Progress'
+   },
+   {
+      type: 'in_review',
+      key: 'in_review',
+      label: 'Review'
+   },
+   {
+      type: 'done',
+      key: 'done',
+      label: 'Done'
+   }
+]

@@ -23,16 +23,15 @@ interface YearViewCalendar {
 }
 
 const YearViewCalendar: FC<YearViewCalendar> = ({ currentYear }) => {
-  console.log({ currentYear });
   return (
     <div className="w-full max-w-[1280px] bg-foreground p-4 rounded-xl ml-4 flex justify-center flex-col">
       <div className="w-full flex flex-wrap gap-4">
         {currentYear.map((yearItem) => {
-          console.log({ yearItem });
-
           return (
             <Card className="shadow-sm w-[25rem] h-80 " key={yearItem.month}>
-              <CardHeader>{yearItem.month}</CardHeader>
+              <CardHeader className="text-fontHeader">
+                {yearItem.month}
+              </CardHeader>
               <CardBody>
                 <Table
                   removeWrapper
@@ -45,7 +44,8 @@ const YearViewCalendar: FC<YearViewCalendar> = ({ currentYear }) => {
                       return (
                         <TableColumn
                           className={`text-center bg-foreground text-secondary ${
-                            isSunday && "bg-red-300 text-danger rounded-md"
+                            isSunday &&
+                            "bg-red-300 dark:bg-red-500 text-danger dark:text-white rounded-md"
                           }`}
                           key={index}
                         >
@@ -63,7 +63,9 @@ const YearViewCalendar: FC<YearViewCalendar> = ({ currentYear }) => {
                           {month.map((j: DayObj, indexJ: number) => (
                             <TableCell
                               className={`text-center p-1 h-8 ${
-                                j.isActive ? "" : "text-gray-300"
+                                j.isActive
+                                  ? "text-fontBase"
+                                  : "text-gray-300 dark:text-gray-500"
                               }`}
                               key={indexJ}
                             >

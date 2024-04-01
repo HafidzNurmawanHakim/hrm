@@ -156,9 +156,37 @@ export const ScheduleSlice = createSlice({
         }
       });
     },
+
+    addNew: (state, action) => {
+      state.taskInHour = [
+        ...task,
+        ...[
+          {
+            from: "06:00",
+            to: "08:00",
+            taskId: "28392",
+            items: {
+              taskKey: "TASK-2",
+              title: "new",
+              desc: "06:00 - 08:00",
+            },
+          },
+          {
+            from: "10:00",
+            to: "11:00",
+            taskId: "28392",
+            items: {
+              taskKey: "TASK-2",
+              title: "new",
+              desc: "10:00 - 11:00",
+            },
+          },
+        ],
+      ];
+    },
   },
   extraReducers: (builder) => {},
 });
 
-export const { setPrevRowHour } = ScheduleSlice.actions;
+export const { setPrevRowHour, addNew } = ScheduleSlice.actions;
 export default ScheduleSlice.reducer;

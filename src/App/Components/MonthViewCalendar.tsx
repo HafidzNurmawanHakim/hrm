@@ -34,7 +34,8 @@ const MonthViewCalendar: FC<MonthViewProps> = ({ currentMonth, load }) => {
           return (
             <TableColumn
               className={`text-center bg-foreground text-secondary ${
-                isSunday && "bg-red-300 text-danger rounded-md"
+                isSunday &&
+                "bg-red-300 dark:bg-red-500 dark:text-white text-danger rounded-md"
               }`}
               key={index}
             >

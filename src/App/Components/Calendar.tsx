@@ -27,6 +27,10 @@ import MonthPagination from "./Atoms/MonthPagination";
 import YearViewCalendar from "./YearViewCalendar";
 import { useAppController } from "../Core/AppController";
 import TaskTrackerSchedule from "./TaskTrackerSchedule";
+import { addNew } from "../Store/reducers/ScheduleReducers/ScheduleSlice";
+import { AppDispatch } from "../Store";
+import { useDispatch } from "react-redux";
+import CreateTaskModal from "./CreateTaskModal";
 
 const ButtonType: Array<{ viewType: ViewType; icon: ReactElement }> = [
   {
@@ -71,6 +75,7 @@ const Calendar: FC<CalendarProps> = ({
 }) => {
   const { holdOn } = useAppController();
   const [viewType, setViewType] = useState<ViewType>("Month");
+  const dispatch: AppDispatch = useDispatch();
 
   const prev = (type: string) => {
     switch (type) {
@@ -111,7 +116,7 @@ const Calendar: FC<CalendarProps> = ({
               >
                 <ArrowLeft3 size={20} />
               </Button>
-              <span className="text-2xl">{year}</span>
+              <span className="text-2xl text-fontHeader">{year}</span>
               <Button
                 aria-label="next page"
                 isIconOnly
@@ -180,15 +185,7 @@ const Calendar: FC<CalendarProps> = ({
               );
             })}
 
-            {holdOn ? (
-              <Button size="sm" color="secondary" startContent={<PlusIcon />}>
-                Task
-              </Button>
-            ) : (
-              <Button size="sm" color="secondary" startContent={<PlusIcon />}>
-                Create Task
-              </Button>
-            )}
+            <CreateTaskModal />
           </div>
         </div>
       </div>

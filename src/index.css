@@ -10,11 +10,17 @@
    padding: 0;
    box-sizing: border-box;
       /* outline: 1px solid #f00 !important; */
+
+}
+
+*:focus {
+   outline:  none;
 }
 
 .custom-transition {
    transition: all 0.7s cubic-bezier(0.2, 1, 0.25, 1);
 }
+
 
 
 @layer base {
