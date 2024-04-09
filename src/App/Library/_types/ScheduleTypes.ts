@@ -1,8 +1,11 @@
+import { BaseColor } from "./General";
+
 export interface DayObj {
    day: string;
    dayLabel: string;
    isActive: boolean;
    isToday: boolean;
+   date: string
 }
 
 export type ViewType = "Year" | "Month" | "Day";
@@ -49,6 +52,7 @@ export interface ItemHour {
 export interface ToRenderItem {
    key: string;
    id: string;
+   baseColor?: BaseColor
    props?: {
       className?: string;
       dataFrom: string;
@@ -63,6 +67,7 @@ export type TaskItem = {
    from: string;
    to: string;
    taskId: string;
+   baseColor: BaseColor;
    items: {
       taskKey: string;
       title: string;

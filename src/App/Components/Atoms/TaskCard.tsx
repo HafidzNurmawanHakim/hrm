@@ -8,8 +8,12 @@ import {
   Chip,
   cn,
 } from "@nextui-org/react";
-import { useCallback, useEffect, useState } from "react";
 import { ItemHour, TaskItem } from "../../Library/_types/ScheduleTypes";
+import {
+  BaseColor,
+  bgSideStickDark,
+  bgSideStickLight,
+} from "../../Library/_types/General";
 
 interface TaskCardProps {
   el: ItemHour[];
@@ -38,10 +42,18 @@ const TaskCard = (props: TaskCardProps) => {
               data-from={itemHour.props?.dataFrom}
               data-to={itemHour.props?.dataTo}
             >
-              <span className="absolute left-1 h-[76%] mt-6 bg-red-200 dark:bg-red-400 w-2 z-50 rounded-md"></span>
+              <span
+                className={cn(
+                  "absolute left-1 h-[76%] mt-6 dark:bg-red-400 w-2 z-50 rounded-md",
+                  bgSideStickDark[itemHour.baseColor as BaseColor]
+                )}
+              ></span>
               <Card
                 radius="sm"
-                className="rounded-md h-full w-full outline-none shadow-sm absolute top-0 left-0 z-40 dark:bg-darkBase"
+                className={cn(
+                  "rounded-md h-full w-full outline-none shadow-sm absolute top-0 left-0 z-40 dark:bg-darkBase",
+                  bgSideStickLight[itemHour.baseColor as BaseColor]
+                )}
                 shadow="none"
               >
                 <CardHeader className="pl-6 justify-between pt-2 items-start">

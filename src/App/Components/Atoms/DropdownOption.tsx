@@ -35,7 +35,7 @@ const DropdownOption: FC<DropdownOption> = ({
   return (
     <ButtonGroup variant="flat">
       <Button>{selectedValue.label}</Button>
-      <Dropdown placement="bottom-end">
+      <Dropdown placement="bottom-end" aria-label="dropdown-option">
         <DropdownTrigger>
           <Button isIconOnly>
             <ArrowDown3 />

@@ -12,6 +12,12 @@ import { getUnavailableIndex } from "../Library/utils/helper";
 interface DayViewProps {
   currentMonthForDay: Array<DayObj>;
   load: boolean;
+  taskInDay: Array<{
+    taskInHour: TaskItem[];
+    date: string;
+  }>;
+  month: number;
+  year: number;
 }
 
 const getHour = (format: "standart" | "militer", task: TaskItem[]) => {
@@ -32,12 +38,18 @@ const getHour = (format: "standart" | "militer", task: TaskItem[]) => {
   return arrHour;
 };
 
-const DayViewCalendar: FC<DayViewProps> = ({ currentMonthForDay, load }) => {
+const DayViewCalendar: FC<DayViewProps> = ({
+  currentMonthForDay,
+  load,
+  taskInDay,
+  month,
+  year,
+}) => {
   const task = useSelector(
     (state: RootState) => state.ScheduleSlice.taskInHour
   );
 
-  const [currDay, setCurrDay] = useState<number>(new Date().getDay());
+  const [currDay, setCurrDay] = useState<number>(new Date().getDate());
   const dispatch: AppDispatch = useDispatch();
   const [taskHour, setTaskHour] = useState(getHour("militer", task));
   const [fixElement, setFixElement] = useState<ItemHour[]>([]);
@@ -66,7 +78,7 @@ const DayViewCalendar: FC<DayViewProps> = ({ currentMonthForDay, load }) => {
         if (element.length === 0) {
           if (itemHour.task.length > 0) {
             let Jsx = [0, 1, 2, 3].map((item, j) => {
-              let itemData = itemHour.task[j]; // Mengakses elemen array menggunakan indeks j
+              let itemData: TaskItem = itemHour.task[j]; // Mengakses elemen array menggunakan indeks j
               if (itemData) {
                 let h = `h-${
                   (parseInt(itemData.to.substring(0, 2)) -
@@ -78,6 +90,7 @@ const DayViewCalendar: FC<DayViewProps> = ({ currentMonthForDay, load }) => {
                 return {
                   key: rowIndex + itemData.from + itemData.to,
                   id: itemData.taskId,
+                  baseColor: itemData.baseColor,
                   props: {
                     dataFrom: itemData.from,
                     dataTo: itemData.to,
@@ -112,7 +125,7 @@ const DayViewCalendar: FC<DayViewProps> = ({ currentMonthForDay, load }) => {
           }
         } else {
           let Jsx = [0, 1, 2, 3].map((item, j) => {
-            let itemData = itemHour.task[j]; // Mengakses elemen array menggunakan indeks j
+            let itemData: TaskItem = itemHour.task[j]; // Mengakses elemen array menggunakan indeks j
             if (itemData) {
               let h = `h-${
                 (parseInt(itemData.to.substring(0, 2)) -
@@ -120,10 +133,10 @@ const DayViewCalendar: FC<DayViewProps> = ({ currentMonthForDay, load }) => {
                   1) *
                 20
               }`;
-
               return {
                 key: rowIndex + itemData.from + itemData.to,
                 id: itemData.taskId,
+                baseColor: itemData.baseColor,
                 props: {
                   dataFrom: itemData.from,
                   dataTo: itemData.to,
@@ -194,18 +207,19 @@ const DayViewCalendar: FC<DayViewProps> = ({ currentMonthForDay, load }) => {
     }
   }
 
-  const colorMode = ["bg-red-100"];
-
-  console.log({ loadEl });
-
   return (
     <>
       <div className="w-full max-w-[1280px] bg-foreground p-4 rounded-xl ml-4 flex justify-center flex-col">
-        <DayPagination summary={currentMonthForDay} pageDay={currDay} />
+        <DayPagination
+          summary={currentMonthForDay}
+          onDayChange={(val) => setCurrDay(val === 0 ? 1 : val)}
+          taskInDay={taskInDay}
+          year={year}
+          month={month}
+        />
         <div className="my-2 max-h-[70vh] overflow-y-scroll overflow-x-hidden">
           <LayoutGroup>
             {taskHour.map((item, i) => {
-              // const chooseEl = getEl(item.task, item.hour, getHour("militer"), i);
               return (
                 <motion.div layout className="relative h-24" key={i}>
                   <Card

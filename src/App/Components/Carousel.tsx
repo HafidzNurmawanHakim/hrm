@@ -53,6 +53,7 @@ export default function Carousel({
                             isToday={j.isToday}
                             isActive={j.isActive}
                             isWeekend={indexJ === 0}
+                            task={[]}
                           />
                         </TableCell>
                       ))}

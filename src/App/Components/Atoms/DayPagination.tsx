@@ -10,14 +10,31 @@ import {
 } from "@nextui-org/react";
 import { ArrowLeft3, ArrowRight3, More } from "iconsax-react";
 import React, { FC } from "react";
-import { DayObj } from "../../Library/_types/ScheduleTypes";
+import { DayObj, TaskItem } from "../../Library/_types/ScheduleTypes";
+import { colorConfig } from "../../Library/_types/General";
 
 interface DayPaginationProps {
   summary: Array<DayObj>;
-  pageDay: number;
+  onDayChange: (value: number) => void;
+  taskInDay: Array<{
+    taskInHour: TaskItem[];
+    date: string;
+  }>;
+  year: number;
+  month: number;
 }
 
-const DayPagination: FC<DayPaginationProps> = ({ summary, pageDay }) => {
+const DayPagination: FC<DayPaginationProps> = ({
+  summary,
+  onDayChange = () => {},
+  taskInDay,
+  year,
+  month,
+}) => {
+  const currentDay = summary.findIndex((item) => {
+    return parseInt(item.day) === new Date().getDate() + 1;
+  });
+
   const renderItem = ({
     ref,
     key,
@@ -28,10 +45,11 @@ const DayPagination: FC<DayPaginationProps> = ({ summary, pageDay }) => {
     setPage,
     className,
     page,
+    activePage,
   }: PaginationItemRenderProps) => {
     const handleSetPage = (page: number) => {
-      let monthPage = page - 1;
       setPage(page);
+      onDayChange(page);
     };
     if (value === PaginationItemType.NEXT) {
       return (
@@ -41,7 +59,10 @@ const DayPagination: FC<DayPaginationProps> = ({ summary, pageDay }) => {
           isIconOnly
           variant="flat"
           color="secondary"
-          onClick={onNext}
+          onClick={() => {
+            onNext();
+            onDayChange(activePage + 1);
+          }}
           //    className="hidden"
         >
           <ArrowRight3 />
@@ -57,7 +78,10 @@ const DayPagination: FC<DayPaginationProps> = ({ summary, pageDay }) => {
           isIconOnly
           variant="flat"
           color="secondary"
-          onClick={onPrevious}
+          onClick={() => {
+            onPrevious();
+            onDayChange(activePage - 1);
+          }}
           //    className="hidden"
         >
           <ArrowLeft3 />
@@ -80,6 +104,15 @@ const DayPagination: FC<DayPaginationProps> = ({ summary, pageDay }) => {
       );
     }
 
+    const totalTask = taskInDay.filter((item) => {
+      return (
+        item.date ===
+        `${value < 10 ? `0${value}` : value}-${
+          month + 1 < 10 ? `0${month + 1}` : month + 1
+        }-${year}`
+      );
+    });
+
     // cursor is the default item
     return (
       <Button
@@ -91,18 +124,32 @@ const DayPagination: FC<DayPaginationProps> = ({ summary, pageDay }) => {
         variant={isActive ? "solid" : "flat"}
       >
         <div className="">
-          <span className="bg-foreground text-secondary w-10 h-10 rounded-full flex items-center justify-center">
-            {summary[value - 1].day}
-          </span>
-          <div className="my-2">{summary[value - 1].dayLabel.slice(0, 3)}</div>
+          <span>{summary[value - 1].day}</span>
+          <div className="">{summary[value - 1].dayLabel.slice(0, 3)}</div>
+          <div className="flex gap-1 flex-wrap justify-center mt-1">
+            {totalTask.length > 0 &&
+            totalTask[0].date.substring(0, 2) ===
+              (parseInt(summary[value - 1].day) < 10
+                ? `0${summary[value - 1].day}`
+                : summary[value - 1].day)
+              ? totalTask[0].taskInHour.length > 0
+                ? totalTask[0].taskInHour.map((item, i) => {
+                    return (
+                      <span
+                        className={cn(
+                          "size-[6px] block rounded-full",
+                          colorConfig[item.baseColor]
+                        )}
+                      ></span>
+                    );
+                  })
+                : null
+              : null}
+          </div>
         </div>
       </Button>
     );
   };
-
-  const currentDay = summary.findIndex((item) => {
-    return parseInt(item.day) === new Date().getDate() + 1;
-  });
 
   return (
     <Pagination

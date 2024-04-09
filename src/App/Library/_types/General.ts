@@ -36,7 +36,7 @@ export const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 
-export type BaseColor = 'success' | 'danger' | 'warning' | 'violet' | 'default' | 'primary'
+export type BaseColor = 'success' | 'danger' | 'warning' | 'default' | 'primary'
 export type Priority = 'high' | 'medium' | 'low' 
 
 export const colorConfig = {
@@ -45,6 +45,22 @@ export const colorConfig = {
    primary: 'bg-blue-300',
    violet: 'bg-violet-300',
    success: 'bg-emerald-300',
+   default: 'bg-white'
+}
+export const bgSideStickDark = {
+   warning: 'bg-amber-300',
+   danger: 'bg-red-300',
+   primary: 'bg-blue-300',
+   violet: 'bg-violet-300',
+   success: 'bg-emerald-300',
+   default: 'bg-white'
+}
+export const bgSideStickLight = {
+   warning: 'bg-amber-100',
+   danger: 'bg-red-100',
+   primary: 'bg-blue-100',
+   violet: 'bg-violet-100',
+   success: 'bg-emerald-100',
    default: 'bg-white'
 }
 

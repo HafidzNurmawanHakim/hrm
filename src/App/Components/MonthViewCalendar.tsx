@@ -7,21 +7,31 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import React, { FC } from "react";
-import { DayObj, initDay } from "../Library/_types/ScheduleTypes";
+import { DayObj, initDay, TaskItem } from "../Library/_types/ScheduleTypes";
 import { CellCalendar } from "./Atoms/CellCalendar";
 
 interface MonthViewProps {
   currentMonth: Array<Array<DayObj>>;
   load: boolean;
+  taskInDay: Array<{
+    taskInHour: TaskItem[];
+    date: string;
+  }>;
 }
 
-const MonthViewCalendar: FC<MonthViewProps> = ({ currentMonth, load }) => {
+const MonthViewCalendar: FC<MonthViewProps> = ({
+  currentMonth,
+  load,
+  taskInDay,
+}) => {
   return (
     <Table
       removeWrapper
       color="secondary"
       classNames={{
-        td: ["h-40 w-32 overflow-hidden rounded-2xl  dark:border-background"],
+        td: [
+          "h-40 w-32 max-w-32 overflow-hidden rounded-2xl dark:border-background",
+        ],
         tr: ["rounded-xl"],
 
         base: ["w-full max-w-[1280px] ml-4"],
@@ -48,16 +58,23 @@ const MonthViewCalendar: FC<MonthViewProps> = ({ currentMonth, load }) => {
         {currentMonth.map((i: Array<DayObj>, indexI) => {
           return (
             <TableRow key={indexI}>
-              {i.map((j: DayObj, indexJ) => (
-                <TableCell className={`text-center p-1 text-xl`} key={indexJ}>
-                  <CellCalendar
-                    label={j.day}
-                    isToday={j.isToday}
-                    isActive={j.isActive}
-                    isWeekend={indexJ === 0}
-                  />
-                </TableCell>
-              ))}
+              {i.map((j: DayObj, indexJ) => {
+                const task = taskInDay.filter((item) => {
+                  return item.date === j.date;
+                });
+
+                return (
+                  <TableCell className={`text-center p-1 text-xl`} key={indexJ}>
+                    <CellCalendar
+                      label={j.day}
+                      isToday={j.isToday}
+                      isActive={j.isActive}
+                      isWeekend={indexJ === 0}
+                      task={task.length > 0 ? task[0].taskInHour : []}
+                    />
+                  </TableCell>
+                );
+              })}
             </TableRow>
           );
         })}

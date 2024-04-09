@@ -6,17 +6,16 @@ import React, {
   SetStateAction,
   useState,
 } from "react";
-import PlusIcon from "../../Assets/Icons/PlusIcon";
 import {
   Category,
   Calendar1,
   Calendar2,
   ArrowRight3,
   ArrowLeft3,
-  BackwardItem,
 } from "iconsax-react";
 import {
   DayObj,
+  TaskItem,
   ViewType,
   generateMonth,
   initMonths,
@@ -27,7 +26,6 @@ import MonthPagination from "./Atoms/MonthPagination";
 import YearViewCalendar from "./YearViewCalendar";
 import { useAppController } from "../Core/AppController";
 import TaskTrackerSchedule from "./TaskTrackerSchedule";
-import { addNew } from "../Store/reducers/ScheduleReducers/ScheduleSlice";
 import { AppDispatch } from "../Store";
 import { useDispatch } from "react-redux";
 import CreateTaskModal from "./CreateTaskModal";
@@ -61,6 +59,10 @@ interface CalendarProps {
   currentMonthForDay: Array<DayObj>;
   load: boolean;
   currentYear: Array<generateMonth>;
+  taskInDay: Array<{
+    taskInHour: TaskItem[];
+    date: string;
+  }>;
 }
 
 const Calendar: FC<CalendarProps> = ({
@@ -72,6 +74,7 @@ const Calendar: FC<CalendarProps> = ({
   month,
   currentMonth,
   currentMonthForDay,
+  taskInDay,
 }) => {
   const { holdOn } = useAppController();
   const [viewType, setViewType] = useState<ViewType>("Month");
@@ -203,11 +206,18 @@ const Calendar: FC<CalendarProps> = ({
           )}
         >
           {viewType === "Month" ? (
-            <MonthViewCalendar load={load} currentMonth={currentMonth} />
+            <MonthViewCalendar
+              load={load}
+              currentMonth={currentMonth}
+              taskInDay={taskInDay}
+            />
           ) : viewType === "Day" ? (
             <DayViewCalendar
               load={load}
               currentMonthForDay={currentMonthForDay}
+              taskInDay={taskInDay}
+              month={month}
+              year={year}
             />
           ) : (
             <YearViewCalendar currentYear={currentYear} />

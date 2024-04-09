@@ -1,27 +1,34 @@
 import {
   Button,
   Card,
+  CardBody,
   Chip,
+  Divider,
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@nextui-org/react";
 import { Menu } from "iconsax-react";
 import React from "react";
+import { TaskItem } from "../../Library/_types/ScheduleTypes";
 
 interface CellCalendar {
   label: string;
   isToday: boolean;
   isWeekend: boolean;
   isActive: boolean;
+  task: TaskItem[];
 }
 
 export const CellCalendar = (props: CellCalendar) => {
-  const { isWeekend, label, isToday, isActive } = props;
+  const { isWeekend, label, isToday, isActive, task } = props;
+
+  const show = task.slice(0, 3);
+
   return (
     <Card
       shadow="none"
-      className="relative bg-foreground w-full h-full rounded-xl overflow-hidden "
+      className="relative bg-foreground h-full rounded-xl overflow-hidden "
     >
       <Popover placement="right-start" backdrop="blur">
         <PopoverTrigger>
@@ -40,6 +47,26 @@ export const CellCalendar = (props: CellCalendar) => {
           test
         </PopoverContent>
       </Popover>
+      <CardBody className="flex flex-col gap-1 mt-4 overflow-y-hidden">
+        {show.map((item) => {
+          return (
+            <Chip
+              endContent={
+                <>
+                  <Divider orientation="vertical" className="mx-1"></Divider>
+                  {item.items.taskKey}
+                </>
+              }
+              color={item.baseColor}
+              size="sm"
+              className="rounded-md "
+              key={item.taskId}
+            >
+              <p className="max-w-20 truncate ...">{item.items.desc}</p>
+            </Chip>
+          );
+        })}
+      </CardBody>
       <Chip
         color={isWeekend ? "danger" : "secondary"}
         radius="sm"

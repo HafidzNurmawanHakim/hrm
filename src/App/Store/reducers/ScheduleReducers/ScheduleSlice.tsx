@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ItemHour, TaskItem } from "../../../Library/_types/ScheduleTypes";
+import { BaseColor } from "../../../Library/_types/General";
 
 interface InitialStateProps {
   prevRowHour: Array<ItemHour>;
   taskInHour: TaskItem[];
   taskInDay: Array<{
-    taskInhour: TaskItem[];
-    day: string;
+    taskInHour: TaskItem[];
+    date: string;
   }>;
 }
 
@@ -15,8 +16,9 @@ const task: TaskItem[] = [
     from: "01:00",
     to: "02:00",
     taskId: "12412",
+    baseColor: "danger",
     items: {
-      taskKey: "TASK-2",
+      taskKey: "TA-223",
       title: "Title gan",
       desc: "test 01:00",
     },
@@ -25,8 +27,9 @@ const task: TaskItem[] = [
     from: "01:00",
     to: "03:00",
     taskId: "12232",
+    baseColor: "primary",
     items: {
-      taskKey: "TASK-2",
+      taskKey: "TA-223",
       title: "Title gan",
       desc: "test 01:00 - test 03:00 ",
     },
@@ -35,95 +38,101 @@ const task: TaskItem[] = [
     from: "02:00",
     to: "03:00",
     taskId: "12122",
-
+    baseColor: "success",
     items: {
-      taskKey: "TASK-2",
+      taskKey: "TA-223",
       title: "Title gan",
       desc: "02:00 - 03:00",
     },
   },
-  {
-    from: "03:00",
-    to: "04:00",
-    taskId: "19832",
-
-    items: {
-      taskKey: "TASK-2",
-      title: "Title gan",
-      desc: "03:00 - 04:00",
-    },
-  },
-  {
-    from: "04:00",
-    to: "05:00",
-    taskId: "19832",
-
-    items: {
-      taskKey: "TASK-2",
-      title: "Title gan",
-      desc: "04:00 - 05:00",
-    },
-  },
-  {
-    from: "03:00",
-    to: "05:00",
-    taskId: "36232",
-    items: {
-      taskKey: "TASK-2",
-      title: "Title gan",
-      desc: "03:00 - 05:00",
-    },
-  },
-  {
-    from: "05:00",
-    to: "06:00",
-    taskId: "36232",
-    items: {
-      taskKey: "TASK-2",
-      title: "Title gan",
-      desc: "05:00 - 06:00",
-    },
-  },
-  {
-    from: "06:00",
-    to: "07:00",
-    taskId: "3623322",
-    items: {
-      taskKey: "TASK-2",
-      title: "Title gan",
-      desc: "06:00 - 07:00",
-    },
-  },
-  {
-    from: "04:00",
-    to: "06:00",
-    taskId: "3623212",
-    items: {
-      taskKey: "TASK-2",
-      title: "Title gan",
-      desc: "04:00 - 06:00",
-    },
-  },
-  {
-    from: "07:00",
-    to: "10:00",
-    taskId: "3623212",
-    items: {
-      taskKey: "TASK-2",
-      title: "Title gan",
-      desc: "04:00 - 10:00",
-    },
-  },
-  {
-    from: "07:00",
-    to: "12:00",
-    taskId: "3623212",
-    items: {
-      taskKey: "TASK-2",
-      title: "Title gan",
-      desc: "04:00 - 12:00",
-    },
-  },
+  // {
+  //   from: "03:00",
+  //   to: "04:00",
+  //   taskId: "19832",
+  //   baseColor: "warning",
+  //   items: {
+  //     taskKey: "TA-223",
+  //     title: "Title gan",
+  //     desc: "03:00 - 04:00",
+  //   },
+  // },
+  // {
+  //   from: "04:00",
+  //   to: "05:00",
+  //   taskId: "19832",
+  //   baseColor: "default",
+  //   items: {
+  //     taskKey: "TA-223",
+  //     title: "Title gan",
+  //     desc: "04:00 - 05:00",
+  //   },
+  // },
+  // {
+  //   from: "03:00",
+  //   to: "05:00",
+  //   taskId: "36232",
+  //   baseColor: "danger",
+  //   items: {
+  //     taskKey: "TA-223",
+  //     title: "Title gan",
+  //     desc: "03:00 - 05:00",
+  //   },
+  // },
+  // {
+  //   from: "05:00",
+  //   to: "06:00",
+  //   taskId: "36232",
+  //   baseColor: "danger",
+  //   items: {
+  //     taskKey: "TA-223",
+  //     title: "Title gan",
+  //     desc: "05:00 - 06:00",
+  //   },
+  // },
+  // {
+  //   from: "06:00",
+  //   to: "07:00",
+  //   taskId: "3623322",
+  //   baseColor: "success",
+  //   items: {
+  //     taskKey: "TA-223",
+  //     title: "Title gan",
+  //     desc: "06:00 - 07:00",
+  //   },
+  // },
+  // {
+  //   from: "04:00",
+  //   to: "06:00",
+  //   taskId: "3623212",
+  //   baseColor: "danger",
+  //   items: {
+  //     taskKey: "TA-223",
+  //     title: "Title gan",
+  //     desc: "04:00 - 06:00",
+  //   },
+  // },
+  // {
+  //   from: "07:00",
+  //   to: "10:00",
+  //   taskId: "3623212",
+  //   baseColor: "primary",
+  //   items: {
+  //     taskKey: "TA-223",
+  //     title: "Title gan",
+  //     desc: "04:00 - 10:00",
+  //   },
+  // },
+  // {
+  //   from: "07:00",
+  //   to: "12:00",
+  //   taskId: "3623212",
+  //   baseColor: "success",
+  //   items: {
+  //     taskKey: "TA-223",
+  //     title: "Title gan",
+  //     desc: "04:00 - 12:00",
+  //   },
+  // },
 ];
 
 let initialState: InitialStateProps = {
@@ -131,8 +140,12 @@ let initialState: InitialStateProps = {
   taskInHour: task,
   taskInDay: [
     {
-      day: "28-02-2024",
-      taskInhour: task,
+      date: "08-04-2024",
+      taskInHour: task,
+    },
+    {
+      date: "19-04-2024",
+      taskInHour: task,
     },
   ],
 };
@@ -165,8 +178,9 @@ export const ScheduleSlice = createSlice({
             from: "06:00",
             to: "08:00",
             taskId: "28392",
+            baseColor: "danger" as BaseColor,
             items: {
-              taskKey: "TASK-2",
+              taskKey: "TA-223",
               title: "new",
               desc: "06:00 - 08:00",
             },
@@ -175,8 +189,9 @@ export const ScheduleSlice = createSlice({
             from: "10:00",
             to: "11:00",
             taskId: "28392",
+            baseColor: "primary" as BaseColor,
             items: {
-              taskKey: "TASK-2",
+              taskKey: "TA-223",
               title: "new",
               desc: "10:00 - 11:00",
             },
