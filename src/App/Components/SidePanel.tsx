@@ -73,7 +73,7 @@ const SidePanel = () => {
                 </li>
                 <li>
                   <NavLink
-                    to="/schedule"
+                    to="/kanban-note"
                     className="group relative flex justify-center rounded px-2 py-1.5 text-secondary"
                   >
                     <NoteText size={28} />
