@@ -61,3 +61,44 @@ export function getUnavailableIndex(
    }
    return [];
  }
+
+
+ export function getLocalStorageItem<T>(
+	key: string,
+	defaultValue?: T
+): T | null {
+	try {
+		const item = localStorage.getItem(key); // Mencoba untuk mengambil item dari local storage
+		return item ? JSON.parse(item) : defaultValue ?? null; // Jika item ditemukan, parse dari JSON (jika diperlukan); jika tidak, kembalikan nilai default
+	} catch (error) {
+		console.error("Error retrieving item from local storage:", error);
+		return defaultValue ?? null; // Mengembalikan nilai default jika terjadi kesalahan
+	}
+}
+
+// Contoh penggunaan:
+//   const userData = getLocalStorageItem<UserData>('user', {} as UserData); // Mendapatkan item 'user' dari local storage dengan tipe UserData dan nilai default objek kosong jika tidak ditemukan
+//   console.log('Data pengguna:', userData); // Jika tidak ditemukan, userData akan menjadi objek kosong {}
+
+
+export const generateTimestamps = (time: string | number) => {
+	let currentTime = new Date();
+	let postTime = new Date(time);
+
+	const timeDifference = Math.floor(
+		(currentTime.getTime() - postTime.getTime()) / 1000
+	);
+
+	if (timeDifference < 60) {
+		return `${timeDifference} detik yang lalu`;
+	} else if (timeDifference < 3600) {
+		const minutes = Math.floor(timeDifference / 60);
+		return `${minutes} menit yang lalu`;
+	} else if (timeDifference < 86400) {
+		const hours = Math.floor(timeDifference / 3600);
+		return `${hours} jam yang lalu`;
+	} else {
+		const days = Math.floor(timeDifference / 86400);
+		return `${days} hari yang lalu`;
+	}
+};

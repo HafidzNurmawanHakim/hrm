@@ -1,17 +1,23 @@
-import React from "react";
-import Item from "./Item";
+import React, { Dispatch, SetStateAction } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { Card, CardBody, CardHeader, Input } from "@nextui-org/react";
 import CardNote from "./CardNote";
+import {
+   KanbanNoteList,
+   NoteColumn,
+} from "../../Library/_types/KanbanNoteTypes";
 
 interface ColumnProps {
-   col: {
-      id: string;
-      list: string[];
-   };
+   col: NoteColumn;
+   column: KanbanNoteList;
+   setColumn: Dispatch<SetStateAction<KanbanNoteList>>;
 }
 
-const Column: React.FC<ColumnProps> = ({ col: { list, id } }) => {
+const Column: React.FC<ColumnProps> = ({
+   col: { list, id, desc, title },
+   column,
+   setColumn,
+}) => {
    return (
       <Droppable droppableId={id} key={id} direction="horizontal">
          {(provided) => (
@@ -20,7 +26,7 @@ const Column: React.FC<ColumnProps> = ({ col: { list, id } }) => {
                   <CardHeader className="text-fontHeader flex-col items-start">
                      <Input
                         placeholder="Title"
-                        value={id}
+                        value={title}
                         size="sm"
                         contentEditable="true"
                      />
@@ -30,20 +36,34 @@ const Column: React.FC<ColumnProps> = ({ col: { list, id } }) => {
                         classNames={{
                            inputWrapper: [
                               "border-transparent",
-                              "focus-visible:outline-none mt-2",
+                              "focus-visible:outline-none mt-2 shadow-none",
                            ],
                         }}
+                        value={desc}
                      />
                   </CardHeader>
                   <CardBody className="h-full clear-both py-0 px-1 ">
                      <div
-                        className="rounded-lg flex flex-col flex-wrap flext-start justify-start h-[17.7rem] w-auto"
+                        className="rounded-lg flex flex-col flex-wrap flext-start justify-start h-[17.7rem] w-auto p-1"
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                      >
-                        {list.map((text, index) => (
-                           <CardNote key={text} text={text} index={index} />
-                        ))}
+                        {list.length === 0 ? (
+                           <div className="w-full h-full pt-10 text-center border-dashed border-2 rounded-lg border-gray-800">
+                              <p className="text-fontBase">Empty</p>
+                              <p className="text-fontBase">Drag Here!</p>
+                           </div>
+                        ) : (
+                           list.map((props, index) => (
+                              <CardNote
+                                 {...props}
+                                 index={index}
+                                 key={index}
+                                 column={column}
+                                 setColumn={setColumn}
+                              />
+                           ))
+                        )}
                         {provided.placeholder}
                      </div>
                   </CardBody>

@@ -60,6 +60,7 @@ module.exports = {
                   base: '#000000',
                   fontBase: '#919191',
                   fontHeader: 'rgb(156 163 175)',
+                  time: '#4b5563',
                   darkBase: '#2E2E30', 
                   primary: {
                      50: "#3B096C",
@@ -95,6 +96,7 @@ module.exports = {
                   base: '#f5f8fa',
                   fontBase: '#919191',
                   fontHeader: 'rgb(156 163 175)',
+                  time: '#4b5563',
                   primary: {
                      50: "#3B096C",
                      100: "#520F83",

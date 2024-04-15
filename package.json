@@ -13,6 +13,7 @@
       "@types/react-dom": "^18.2.18",
       "apexcharts": "^3.45.1",
       "axios": "^1.6.2",
+      "draft-js": "^0.11.7",
       "framer-motion": "^10.16.16",
       "iconsax-react": "^0.0.8",
       "match-sorter": "^6.3.1",
@@ -54,6 +55,7 @@
       ]
    },
    "devDependencies": {
+      "@types/draft-js": "^0.11.18",
       "@types/react": "^18.2.25",
       "@types/react-beautiful-dnd": "^13.1.8",
       "@types/react-table": "^7.7.18",
